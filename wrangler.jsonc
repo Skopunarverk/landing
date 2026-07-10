@@ -1,0 +1,25 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "skopunarverk",
+  "account_id": "8bafdbd1f2d967917dbc0a67156266fa",
+  "compatibility_date": "2026-07-10",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "./worker/index.ts",
+  "workers_dev": true,
+  "preview_urls": true,
+  "routes": [
+    {
+      "pattern": "skopunarverk.com",
+      "custom_domain": true
+    }
+  ],
+  "assets": {
+    "directory": "./dist/client",
+    "not_found_handling": "none",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
+}

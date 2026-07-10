@@ -134,3 +134,24 @@ test("keeps every shared React component in its own file", async () => {
     assert.equal(source.match(/^export function /gm)?.length, 1, `${relativePath} must define exactly one public component`);
   }
 });
+
+test("keeps the Cloudflare Worker production contract explicit", async () => {
+  const [wranglerSource, workerSource, workerTypes] = await Promise.all([
+    readFile(new URL("../wrangler.jsonc", import.meta.url), "utf8"),
+    readFile(new URL("../worker/index.ts", import.meta.url), "utf8"),
+    readFile(new URL("../worker-configuration.d.ts", import.meta.url), "utf8"),
+  ]);
+  const wrangler = JSON.parse(wranglerSource);
+
+  assert.equal(wrangler.name, "skopunarverk");
+  assert.equal(wrangler.workers_dev, true);
+  assert.deepEqual(wrangler.routes, [{ pattern: "skopunarverk.com", custom_domain: true }]);
+  assert.equal(wrangler.assets.binding, "ASSETS");
+  assert.equal(wrangler.assets.not_found_handling, "none");
+  assert.equal(wrangler.observability.enabled, true);
+  assert.equal(wrangler.images, undefined);
+  assert.equal(wrangler.d1_databases, undefined);
+  assert.match(workerSource, /vinext\/server\/app-router-entry/);
+  assert.match(workerTypes, /ASSETS: Fetcher/);
+  assert.doesNotMatch(workerTypes, /\bDB:/);
+});
