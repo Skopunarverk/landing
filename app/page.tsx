@@ -1,3 +1,5 @@
+import { VersionSwitcher } from "./VersionSwitcher";
+
 const projects = [
   {
     index: "01",
@@ -55,7 +57,7 @@ export default function Home() {
             </span>
             <span>
               <span className="block text-[0.82rem] font-semibold tracking-[0.28em] text-white">GENESIS</span>
-              <span className="mt-0.5 block font-mono text-[0.56rem] tracking-[0.2em] text-star-500">WORLD SYSTEMS</span>
+              <span className="mt-0.5 block font-mono text-[0.56rem] tracking-[0.16em] text-star-500">SKÖPUNARVERK · WORLD SYSTEMS</span>
             </span>
           </a>
 
@@ -65,8 +67,10 @@ export default function Home() {
             <a className="nav-link" href="#principles">设计原则</a>
           </nav>
 
+          <VersionSwitcher active="v1" className="hidden md:flex" />
+
           <a
-            className="button button-quiet hidden sm:inline-flex"
+            className="button button-quiet header-github"
             href="https://github.com/dyzdyz010"
             target="_blank"
             rel="noreferrer"
@@ -79,6 +83,7 @@ export default function Home() {
               <span aria-hidden="true">•••</span>
             </summary>
             <nav className="absolute right-0 top-12 grid w-52 gap-1 rounded-2xl border border-white/10 bg-space-900/95 p-2 shadow-orbit backdrop-blur-xl" aria-label="移动端导航">
+              <VersionSwitcher active="v1" className="mb-2 flex" />
               <a className="nav-link" href="#projects">项目群</a>
               <a className="nav-link" href="#system">协作系统</a>
               <a className="nav-link" href="#principles">设计原则</a>

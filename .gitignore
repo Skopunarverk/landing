@@ -41,3 +41,5 @@ next-env.d.ts
 /outputs/
 /work/
 .sites-dev.*.log
+.sites-preview.*.log
+.reference-server.*.log
