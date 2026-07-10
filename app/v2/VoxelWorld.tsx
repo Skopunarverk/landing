@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { createAnimationScheduler } from "../components/motion/animationScheduler";
 import styles from "./v2.module.css";
 
 type Cell = { x: number; y: number; height: number; water: boolean; order: number };
@@ -36,8 +37,6 @@ export function VoxelWorld() {
     const context = canvas?.getContext("2d");
     if (!canvas || !context) return;
 
-    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let reducedMotion = motionPreference.matches;
     const radius = 6;
     const cells: Cell[] = [];
     for (let x = -radius; x <= radius; x += 1) {
@@ -55,9 +54,6 @@ export function VoxelWorld() {
     }
     cells.sort((a, b) => a.order - b.order || a.x - b.x);
 
-    let frame = 0;
-    let documentVisible = !document.hidden;
-    let inViewport = true;
     let width = 720;
     let height = 720;
     let dpr = 1;
@@ -72,7 +68,7 @@ export function VoxelWorld() {
       context.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
-    const draw = (time = 0) => {
+    const draw = (time = 0, reducedMotion = false) => {
       context.clearRect(0, 0, width, height);
       const unit = Math.min(width, height) / 36;
       const vertical = unit * 0.56;
@@ -147,52 +143,9 @@ export function VoxelWorld() {
 
     };
 
-    const tick = (time: number) => {
-      draw(time);
-      frame = window.requestAnimationFrame(tick);
-    };
-
-    const syncAnimation = () => {
-      window.cancelAnimationFrame(frame);
-      frame = 0;
-      if (!reducedMotion && documentVisible && inViewport) {
-        frame = window.requestAnimationFrame(tick);
-      } else {
-        draw();
-      }
-    };
-
-    const onResize = () => {
-      resize();
-      draw(performance.now());
-    };
-    const onVisibility = () => {
-      documentVisible = !document.hidden;
-      syncAnimation();
-    };
-    const onMotionPreference = (event: MediaQueryListEvent) => {
-      reducedMotion = event.matches;
-      syncAnimation();
-    };
-    const viewportObserver = "IntersectionObserver" in window
-      ? new IntersectionObserver(([entry]) => {
-          inViewport = entry.isIntersecting;
-          syncAnimation();
-        }, { rootMargin: "120px" })
-      : null;
-
-    resize();
-    syncAnimation();
-    viewportObserver?.observe(canvas);
-    window.addEventListener("resize", onResize, { passive: true });
-    document.addEventListener("visibilitychange", onVisibility);
-    motionPreference.addEventListener("change", onMotionPreference);
+    const disposeScheduler = createAnimationScheduler({ render: draw, resize, observe: canvas });
     return () => {
-      window.cancelAnimationFrame(frame);
-      viewportObserver?.disconnect();
-      window.removeEventListener("resize", onResize);
-      document.removeEventListener("visibilitychange", onVisibility);
-      motionPreference.removeEventListener("change", onMotionPreference);
+      disposeScheduler();
     };
   }, []);
 
@@ -200,7 +153,7 @@ export function VoxelWorld() {
     <div
       className={styles.voxelFrame}
       role="img"
-      aria-label="由确定性体素生成的漂浮世界，代表 Genesis 正在演化的共同世界模型"
+      aria-label="由确定性体素生成的漂浮世界，代表 Sköpunarverk 正在演化的共同世界模型"
       onPointerMove={(event) => {
         const rect = event.currentTarget.getBoundingClientRect();
         pointerRef.current = {

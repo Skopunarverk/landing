@@ -1,0 +1,69 @@
+:root {
+  --theme-canvas: #060812;
+  --theme-surface: #101426;
+  --theme-surface-strong: #0a0d1c;
+  --theme-line: rgba(154, 170, 225, 0.16);
+  --theme-fg: #f5f7ff;
+  --theme-fg-muted: #b7bdd2;
+  --theme-fg-dim: #69728f;
+  --theme-accent-cyan: #61d9ff;
+  --theme-accent-violet: #8c7cff;
+  --theme-accent-magenta: #ff7bcb;
+  --theme-accent-gold: #ffcc7a;
+  --theme-positive: #79f0cb;
+  --theme-ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Compatibility aliases for route-specific art that has not moved to utilities. */
+  --space-950: var(--theme-canvas);
+  --space-900: var(--theme-surface-strong);
+  --space-850: var(--theme-surface);
+  --star-100: var(--theme-fg);
+  --star-300: var(--theme-fg-muted);
+  --star-400: #8e96b2;
+  --star-500: var(--theme-fg-dim);
+  --violet: var(--theme-accent-violet);
+  --cyan: var(--theme-accent-cyan);
+  --mint: var(--theme-positive);
+  --gold: var(--theme-accent-gold);
+  --ease-orbit: var(--theme-ease-emphasized);
+}
+
+[data-visual="voxel"] {
+  --theme-canvas: #050714;
+  --theme-surface: #101631;
+  --theme-surface-strong: #090d22;
+  --theme-line: rgba(154, 170, 225, 0.16);
+  --theme-fg: #f5f7ff;
+  --theme-fg-muted: #b7c2e2;
+  --theme-fg-dim: #7f8bb1;
+  --theme-accent-cyan: #7ae7ff;
+  --theme-accent-violet: #8a7cff;
+  --theme-accent-magenta: #ff7bcb;
+  --theme-accent-gold: #fff0a8;
+  --theme-positive: #6ef0b4;
+}
+
+@theme inline {
+  --color-canvas: var(--theme-canvas);
+  --color-surface: var(--theme-surface);
+  --color-surface-strong: var(--theme-surface-strong);
+  --color-line: var(--theme-line);
+  --color-fg: var(--theme-fg);
+  --color-fg-muted: var(--theme-fg-muted);
+  --color-fg-dim: var(--theme-fg-dim);
+  --color-accent-cyan: var(--theme-accent-cyan);
+  --color-accent-violet: var(--theme-accent-violet);
+  --color-accent-magenta: var(--theme-accent-magenta);
+  --color-accent-gold: var(--theme-accent-gold);
+  --color-positive: var(--theme-positive);
+  --font-sans: "Inter", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-display: "Iowan Old Style", "Noto Serif SC", "Songti SC", "STSong", serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --ease-emphasized: var(--theme-ease-emphasized);
+  --radius-control: 0.8rem;
+  --radius-panel: 1.5rem;
+  --shadow-panel: 0 32px 100px rgba(2, 4, 18, 0.6), 0 0 60px rgba(97, 217, 255, 0.08);
+  --shadow-floating: 0 24px 70px rgba(0, 0, 0, 0.22);
+  --container-site: 90rem;
+  --container-content: 84rem;
+}

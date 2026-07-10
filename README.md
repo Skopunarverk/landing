@@ -1,6 +1,6 @@
-# Genesis Landing
+# Sköpunarverk Landing
 
-Genesis 项目群的统一入口，展示 TheWorldBook、Sevara 与 ex_mmo_cluster 三个项目如何共同组成一个可被书写、表达和运行的世界。
+Sköpunarverk 项目群的统一入口，展示 TheWorldBook、Sevara 与 ex_mmo_cluster 三个项目如何共同组成一个可被书写、表达和运行的世界。
 
 ## 版本对比
 
@@ -24,4 +24,4 @@ npm test
 npm run lint
 ```
 
-页面使用 Tailwind CSS 4，设计令牌与补充动效统一维护在 `app/globals.css`。
+页面使用 Tailwind CSS 4。共享令牌位于 `app/styles/theme.css`，公共组件位于 `app/components/`，版本专属艺术效果保留在各自样式文件中。详细治理规则见 `DESIGN_SYSTEM.md`。

@@ -1,0 +1,7 @@
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+  html { background: var(--theme-canvas); }
+  body { margin: 0; background: var(--theme-canvas); color: var(--theme-fg); font-family: var(--font-sans); }
+  a { text-decoration: none; }
+  button, a, summary { -webkit-tap-highlight-color: transparent; }
+}
