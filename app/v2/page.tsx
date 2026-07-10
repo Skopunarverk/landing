@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
 import { RevealManager } from "../components/motion/RevealManager";
-import { SiteFooter, SiteHeader } from "../components/SiteChrome";
-import {
-  ActionLink,
-  Eyebrow,
-  MetricStrip,
-  PageContainer,
-  PrincipleList,
-  SectionHeading,
-  StatusBadge,
-} from "../components/ui";
+import { SiteFooter } from "../components/site/SiteFooter";
+import { SiteHeader } from "../components/site/SiteHeader";
+import { ActionLink } from "../components/ui/ActionLink";
+import { Eyebrow } from "../components/ui/Eyebrow";
+import { MetricStrip } from "../components/ui/MetricStrip";
+import { PageContainer } from "../components/ui/PageContainer";
+import { PrincipleList } from "../components/ui/PrincipleList";
+import { SectionHeading } from "../components/ui/SectionHeading";
+import { StatusBadge } from "../components/ui/StatusBadge";
 import { siteConfig } from "../lib/site";
 import { MotionField } from "./MotionField";
 import { VoxelWorld } from "./VoxelWorld";

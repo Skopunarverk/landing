@@ -24,4 +24,4 @@ npm test
 npm run lint
 ```
 
-页面使用 Tailwind CSS 4。共享令牌位于 `app/styles/theme.css`，公共组件位于 `app/components/`，版本专属艺术效果保留在各自样式文件中。详细治理规则见 `DESIGN_SYSTEM.md`。
+页面使用 Tailwind CSS 4。共享令牌位于 `app/styles/theme.css`；通用 UI、站点外壳和动效基础设施分别位于 `app/components/ui/`、`app/components/site/`、`app/components/motion/`，每个公共 React 组件独占一个文件。版本专属艺术效果保留在各自样式文件中。详细治理规则见 `DESIGN_SYSTEM.md`。

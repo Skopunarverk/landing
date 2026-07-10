@@ -51,8 +51,10 @@ test("keeps the design system, shared components, and motion contracts explicit"
     css,
     theme,
     siteConfig,
-    chrome,
-    ui,
+    siteHeader,
+    actionLink,
+    sectionHeading,
+    principleList,
     v2Page,
     v2Css,
     voxelWorld,
@@ -66,8 +68,10 @@ test("keeps the design system, shared components, and motion contracts explicit"
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../app/styles/theme.css", import.meta.url), "utf8"),
     readFile(new URL("../app/lib/site.ts", import.meta.url), "utf8"),
-    readFile(new URL("../app/components/SiteChrome.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../app/components/ui.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/site/SiteHeader.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/ui/ActionLink.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/ui/SectionHeading.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/ui/PrincipleList.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/v2/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/v2/v2.module.css", import.meta.url), "utf8"),
     readFile(new URL("../app/v2/VoxelWorld.tsx", import.meta.url), "utf8"),
@@ -85,11 +89,10 @@ test("keeps the design system, shared components, and motion contracts explicit"
   assert.match(theme, /@theme inline/);
   assert.match(theme, /\[data-visual="voxel"\]/);
   assert.match(siteConfig, /name: "Sköpunarverk"/);
-  assert.match(chrome, /SiteHeader/);
-  assert.match(chrome, /SiteFooter/);
-  assert.match(ui, /ActionLink/);
-  assert.match(ui, /SectionHeading/);
-  assert.match(ui, /PrincipleList/);
+  assert.match(siteHeader, /SiteHeader/);
+  assert.match(actionLink, /ActionLink/);
+  assert.match(sectionHeading, /SectionHeading/);
+  assert.match(principleList, /PrincipleList/);
   assert.match(v2Page, /VoxelWorld/);
   assert.match(v2Page, /已有基础/);
   assert.match(v2Page, /正在推进/);
@@ -106,4 +109,28 @@ test("keeps the design system, shared components, and motion contracts explicit"
   assert.match(revealManager, /data-v2-reveal-ready/);
   assert.match(packageJson, /"name": "skopunarverk-landing"/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
+});
+
+test("keeps every shared React component in its own file", async () => {
+  const sharedComponents = [
+    ["ActionLink", "../app/components/ui/ActionLink.tsx"],
+    ["Eyebrow", "../app/components/ui/Eyebrow.tsx"],
+    ["MetricStrip", "../app/components/ui/MetricStrip.tsx"],
+    ["PageContainer", "../app/components/ui/PageContainer.tsx"],
+    ["PrincipleList", "../app/components/ui/PrincipleList.tsx"],
+    ["SectionHeading", "../app/components/ui/SectionHeading.tsx"],
+    ["StatusBadge", "../app/components/ui/StatusBadge.tsx"],
+    ["BrandLockup", "../app/components/site/BrandLockup.tsx"],
+    ["NavigationLinks", "../app/components/site/NavigationLinks.tsx"],
+    ["SiteFooter", "../app/components/site/SiteFooter.tsx"],
+    ["SiteHeader", "../app/components/site/SiteHeader.tsx"],
+    ["VersionSwitcher", "../app/components/site/VersionSwitcher.tsx"],
+    ["RevealManager", "../app/components/motion/RevealManager.tsx"],
+  ];
+
+  for (const [componentName, relativePath] of sharedComponents) {
+    const source = await readFile(new URL(relativePath, import.meta.url), "utf8");
+    assert.match(source, new RegExp(`export function ${componentName}\\b`));
+    assert.equal(source.match(/^export function /gm)?.length, 1, `${relativePath} must define exactly one public component`);
+  }
 });

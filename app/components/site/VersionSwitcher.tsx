@@ -1,7 +1,7 @@
 import { siteConfig, type SiteVersion } from "@/app/lib/site";
-import { cn } from "./ui";
+import { cn } from "@/app/lib/cn";
 
-type VersionSwitcherProps = {
+export type VersionSwitcherProps = {
   active: SiteVersion;
   className?: string;
 };
@@ -11,10 +11,7 @@ export function VersionSwitcher({ active, className }: VersionSwitcherProps) {
     <div
       role="group"
       aria-label="页面版本"
-      className={cn(
-        "items-center gap-1 rounded-full border border-line bg-white/[0.035] p-1",
-        className,
-      )}
+      className={cn("items-center gap-1 rounded-full border border-line bg-white/[0.035] p-1", className)}
     >
       {siteConfig.versions.map((version) => {
         const current = version.id === active;

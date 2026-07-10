@@ -13,17 +13,35 @@
 ## 2. 分层
 
 ```text
-app/lib/site.ts                       品牌与链接真相源
+app/lib/
+├── site.ts                           品牌与链接真相源
+└── cn.ts                             纯 class 组合工具
+app/components/
+├── ui/                               无业务含义的设计系统组件
+│   ├── ActionLink.tsx
+│   ├── Eyebrow.tsx
+│   ├── MetricStrip.tsx
+│   ├── PageContainer.tsx
+│   ├── PrincipleList.tsx
+│   ├── SectionHeading.tsx
+│   └── StatusBadge.tsx
+├── site/                             品牌、导航与站点外壳
+│   ├── BrandLockup.tsx
+│   ├── NavigationLinks.tsx
+│   ├── SiteFooter.tsx
+│   ├── SiteHeader.tsx
+│   ├── VersionSwitcher.tsx
+│   ├── chromeStyles.ts
+│   └── types.ts
+└── motion/                           公共客户端动效生命周期
 app/styles/theme.css                  Tailwind 4 CSS-first 语义令牌
-app/components/ui.tsx                 公共 UI 原语
-app/components/SiteChrome.tsx         公共 Header / Brand / Footer
-app/components/VersionSwitcher.tsx    版本切换
-app/components/motion/                公共动效生命周期
 app/globals.css                       基础样式与 classic 专属艺术样式入口
 app/v2/v2.module.css                  voxel 专属艺术效果
 ```
 
 公共层统一语义、交互、焦点、响应式和 reduced-motion；classic 与 voxel 只在艺术表达上分叉。
+
+每个 `.tsx` 公共组件文件只定义一个 React 组件。页面和组件直接导入具体文件，不使用混合 Server / Client 的顶层 barrel；组件专属 Props 与静态 variant 映射和组件共置，共享类型才进入 `types.ts`。
 
 ## 3. 语义令牌
 
@@ -61,6 +79,7 @@ app/v2/v2.module.css                  voxel 专属艺术效果
 5. `className` 只用于外层布局；颜色、尺寸和状态使用受控 props。
 6. 移动优先，简单动效优先使用 `motion-safe` / `motion-reduce`；Canvas 同时在 JS 层响应 reduced-motion、页面可见性和视口可见性。
 7. 页面内容默认可见，渐显只在 JS 成功初始化后启用。
+8. 一组件一文件；通用 UI、站点外壳和客户端动效之间不建立跨层聚合入口。
 
 ## 6. 验收
 
