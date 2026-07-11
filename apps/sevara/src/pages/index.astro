@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout>
+  <div class="shell">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Speak · Resolve · Execute</p>
+        <h1>让语言成为<span>魔法的边界</span></h1>
+        <p class="lede">Sevara 是一门可说、可教、可确定解析的受控自然语言。普通陈述、提问与施法共享同一套语言，只由句尾模式决定言语行为。</p>
+        <div class="actions">
+          <a class="button primary" href="/sevara/spec/foundations/">阅读公开规范</a>
+          <a class="button" href="/sevara/companion/">理解文档分层</a>
+        </div>
+      </div>
+      <div class="mode-orbit" aria-label="Surface、Canonical 与 Execution 三层关系示意">
+        <span class="mode-label surface">SURFACE</span>
+        <span class="mode-label canonical">CANONICAL</span>
+        <span class="mode-label execution">EXECUTION</span>
+        <span class="mode-core">ha</span>
+      </div>
+    </section>
+
+    <section class="section section-rule">
+      <p class="eyebrow">One language, three profiles</p>
+      <h2>自然表达，不以歧义为代价</h2>
+      <div class="grid-3">
+        <article class="principle"><b>01</b><h3>Surface Profile</h3><p>玩家真正说出与写下的表层。它容纳短句、连句、条件句和长篇吟唱。</p></article>
+        <article class="principle"><b>02</b><h3>Canonical Profile</h3><p>确定性归一化后的规范表层，用于日志、网络协议与可靠重放。</p></article>
+        <article class="principle"><b>03</b><h3>Execution Profile</h3><p>只有以 <code>ha</code> 封印的话语进入权威执行环境，并接受规则与预算检查。</p></article>
+      </div>
+    </section>
+
+    <section class="section section-rule">
+      <p class="eyebrow">Publication identities</p>
+      <h2>规则与解释，各有清晰身份</h2>
+      <p class="lede">网站不会把教程、工程资料或历史材料包装成语言规则。发生冲突时，规范入口与 accepted registry 才是合法性的来源。</p>
+      <div class="identity-note">
+        <article class="identity-card"><strong>Normative · 规范性</strong><span>公开规范直接回答“什么是合法的 Sevara”。这是可引用的规则入口。</span></article>
+        <article class="identity-card" data-kind="companion"><strong>Explanatory · 解释性</strong><span>完整资产、实现参考与教学材料帮助理解和维护，但不反向定义语言。</span></article>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

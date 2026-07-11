@@ -1,0 +1,40 @@
+---
+import "../styles/global.css";
+import "@skopunarverk/brand/tokens.css";
+import "@skopunarverk/docs/styles/functional.css";
+import "@skopunarverk/ui/styles.css";
+import GlobalFooter from "@skopunarverk/ui/astro/GlobalFooter";
+import GlobalHeader from "@skopunarverk/ui/astro/GlobalHeader";
+
+interface Props { title?: string; description?: string; }
+const { title = "The World Book — Sköpunarverk", description = "一个关于世界规则、历史、文明与生活的开放设定集。" } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const path = Astro.url.pathname;
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} /><meta name="theme-color" content="#f2ead9" />
+    <link rel="icon" type="image/svg+xml" href="/worldbook/favicon.svg" /><link rel="canonical" href={canonical} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">跳到正文</a>
+    <GlobalHeader active="worldbook" />
+    <header class="masthead">
+      <div class="page masthead-top"><span>Sköpunarverk · Archive of imagined worlds</span><a href="/">返回主站 ↗</a></div>
+      <div class="page title-row">
+        <a class="wordmark" href="/worldbook/"><small>The</small><strong>World Book</strong></a>
+        <nav class="book-nav" aria-label="主要导航">
+          <a href="/worldbook/volumes/" aria-current={path === "/worldbook/volumes/" ? "page" : undefined}>四卷</a>
+          <a href="/worldbook/volumes/1-world-basics/magic/" aria-current={path.includes("/magic/") ? "page" : undefined}>魔法体系</a>
+          <a href="/worldbook/downloads/" aria-current={path.includes("/downloads/") ? "page" : undefined}>PDF</a>
+        </nav>
+      </div>
+    </header>
+    <main id="content" class="main"><slot /></main>
+    <footer class="footer"><div class="page footer-row"><span>世界观内容采用 CC BY-NC-SA 4.0 · Copyright © Hemifuture</span><a href="/worldbook/publication-manifest.json">Publication manifest</a></div></footer>
+    <GlobalFooter />
+  </body>
+</html>

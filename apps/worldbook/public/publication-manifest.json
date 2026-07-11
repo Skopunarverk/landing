@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "product": "worldbook",
+  "title": "The World Book",
+  "basePath": "/worldbook/",
+  "document": {
+    "id": "worldbook",
+    "namespace": "worldbook",
+    "title": "The World Book",
+    "lang": "zh-CN",
+    "canonicalPath": "/worldbook/"
+  },
+  "sourceCommit": "5f2b6ab97839988363c8be399ba10829dca7d3a3",
+  "generatedAt": "2026-07-11T05:48:21.895Z",
+  "targets": [
+    "html",
+    "pdf"
+  ],
+  "source": {
+    "repository": "https://github.com/Hemifuture/TheWorldBook.git",
+    "commit": "5f2b6ab97839988363c8be399ba10829dca7d3a3",
+    "committedAt": "2026-05-27T16:31:44+08:00"
+  },
+  "sourceSnapshot": {
+    "path": "src/generated/authoritative-content.json",
+    "bytes": 84461,
+    "sha256": "b574a7c60c8c67ad1f2f7558d3f9a12489cf26a0c53a8eb63953775b6e6168bf"
+  },
+  "generator": {
+    "docsPackage": "0.1.0",
+    "typst": "0.15.0"
+  },
+  "authority": "src",
+  "license": "CC BY-NC-SA 4.0",
+  "volumes": [
+    {
+      "number": 1,
+      "slug": "world-basics",
+      "title": "世界基础",
+      "artifact": {
+        "target": "pdf",
+        "url": "/worldbook/downloads/Volume1_WorldBasics.pdf",
+        "bytes": 747148,
+        "sha256": "4431577b8de0f6419f25df198d3640a80ae4ad1e65c7dc050e9783ce3c0ca2c5"
+      }
+    },
+    {
+      "number": 2,
+      "slug": "history-and-social-evolution",
+      "title": "历史与社会演变",
+      "artifact": {
+        "target": "pdf",
+        "url": "/worldbook/downloads/Volume2_HistoryAndSocialEvolution.pdf",
+        "bytes": 303249,
+        "sha256": "a148e32ee4db27a70609d34a5344374a61e6c0eaafede67d7cdb2f6430e8788b"
+      }
+    },
+    {
+      "number": 3,
+      "slug": "culture-and-civilization",
+      "title": "文化与文明",
+      "artifact": {
+        "target": "pdf",
+        "url": "/worldbook/downloads/Volume3_CultureAndCivilization.pdf",
+        "bytes": 302661,
+        "sha256": "24355e6502bdbb8684c3d0d46b46bdc7ea8690f1cefcf0ba9b6a02c2b22d6001"
+      }
+    },
+    {
+      "number": 4,
+      "slug": "social-life-and-challenges",
+      "title": "社会生活与挑战",
+      "artifact": {
+        "target": "pdf",
+        "url": "/worldbook/downloads/Volume4_SocialLifeAndChallenge.pdf",
+        "bytes": 303232,
+        "sha256": "330a88e705976574f00809f9386bc4ac9bb251739beb8a155fb241ce0082f3c1"
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "target": "html",
+      "path": "/worldbook/volumes/1-world-basics/magic/",
+      "bytes": 85699,
+      "sha256": "d5f17ca478be304257df1047fa70b83ba6969c0021f939484455855cb709191b"
+    },
+    {
+      "target": "pdf",
+      "path": "/worldbook/downloads/Volume1_WorldBasics.pdf",
+      "bytes": 747148,
+      "sha256": "4431577b8de0f6419f25df198d3640a80ae4ad1e65c7dc050e9783ce3c0ca2c5"
+    },
+    {
+      "target": "pdf",
+      "path": "/worldbook/downloads/Volume2_HistoryAndSocialEvolution.pdf",
+      "bytes": 303249,
+      "sha256": "a148e32ee4db27a70609d34a5344374a61e6c0eaafede67d7cdb2f6430e8788b"
+    },
+    {
+      "target": "pdf",
+      "path": "/worldbook/downloads/Volume3_CultureAndCivilization.pdf",
+      "bytes": 302661,
+      "sha256": "24355e6502bdbb8684c3d0d46b46bdc7ea8690f1cefcf0ba9b6a02c2b22d6001"
+    },
+    {
+      "target": "pdf",
+      "path": "/worldbook/downloads/Volume4_SocialLifeAndChallenge.pdf",
+      "bytes": 303232,
+      "sha256": "330a88e705976574f00809f9386bc4ac9bb251739beb8a155fb241ce0082f3c1"
+    }
+  ]
+}

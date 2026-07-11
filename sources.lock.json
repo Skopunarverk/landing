@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "sources": {
+    "sevara": {
+      "repository": "https://github.com/dyzdyz010/sevara.git",
+      "commit": "9625a20b863acd5122e2d10f06950dabb418b07f",
+      "committedAt": "2026-07-10T19:46:17+08:00"
+    },
+    "worldbook": {
+      "repository": "https://github.com/Hemifuture/TheWorldBook.git",
+      "commit": "5f2b6ab97839988363c8be399ba10829dca7d3a3",
+      "committedAt": "2026-05-27T16:31:44+08:00"
+    }
+  }
+}

@@ -1,0 +1,5 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+const downloads = [["I", "世界基础", "Volume1_WorldBasics.pdf"], ["II", "历史与社会演变", "Volume2_HistoryAndSocialEvolution.pdf"], ["III", "文化与文明", "Volume3_CultureAndCivilization.pdf"], ["IV", "社会生活与挑战", "Volume4_SocialLifeAndChallenge.pdf"]];
+---
+<BaseLayout title="PDF 版本 — The World Book"><div class="page reader"><aside class="folio-nav"><strong>Portable editions</strong><a href="#volumes">四卷 PDF</a><a href="#reproducible">可复现构建</a></aside><article class="prose"><p class="kicker">Typeset editions</p><h1>PDF 版本</h1><p>四卷 PDF 直接从 TheWorldBook 的权威 Typst 源文件编译。网页适合探索与链接，PDF 保留书册式排版和离线阅读体验。</p><div class="download-list" id="volumes">{downloads.map(([n, title, file]) => <div class="download-item"><div><strong>{n} · {title}</strong><small>构建流水线生成后可下载</small></div><a class="button" href={`/worldbook/downloads/${file}`}>PDF</a></div>)}</div><h2 id="reproducible">可复现构建</h2><p>运行 <code>pnpm --filter @skopunarverk/worldbook-site pdf:build</code>。脚本读取相邻的 TheWorldBook 权威仓，以固定入口分别编译四卷并输出到本站下载目录。</p></article></div></BaseLayout>

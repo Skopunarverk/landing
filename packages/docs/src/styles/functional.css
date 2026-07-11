@@ -1,0 +1,71 @@
+/* Product-neutral safeguards for Typst-generated HTML. Applications own all
+ * typography, color, spacing, and navigation styles. */
+
+.sk-docs-rendered {
+  overflow-wrap: anywhere;
+}
+
+.sk-docs-rendered :where(.sk-docs-equation--block, .sk-docs-code--block, .sk-docs-table-scroll) {
+  max-inline-size: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+
+.sk-docs-rendered :where(.sk-docs-equation--block math, pre, table) {
+  max-inline-size: 100%;
+}
+
+.sk-docs-rendered :where(pre, code, math) {
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.sk-docs-rendered :where(img, svg) {
+  block-size: auto;
+  max-inline-size: 100%;
+}
+
+.sk-docs-rendered :where(.sk-docs-heading__anchor, .sk-docs-footnote-ref a, .sk-docs-footnote-backref):focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 0.2em;
+}
+
+.sk-docs-rendered[data-toc="off"] .sk-docs-outline,
+.sk-docs-rendered[data-heading-links="off"] .sk-docs-heading__anchor,
+.sk-docs-rendered[data-footnotes="off"] :where(.sk-docs-footnote-ref, .sk-docs-sidenote, .sk-docs-footnotes) {
+  display: none !important;
+}
+
+.sk-docs-rendered--embed > :first-child,
+.sk-docs-rendered--excerpt > :first-child {
+  margin-block-start: 0;
+}
+
+.sk-docs-rendered--embed > :last-child,
+.sk-docs-rendered--excerpt > :last-child {
+  margin-block-end: 0;
+}
+
+.sk-docs-sidenote {
+  display: none;
+}
+
+@media (min-width: 80rem) {
+  .sk-docs-rendered[data-footnote-layout="sidenotes"] .sk-docs-footnotes {
+    display: none;
+  }
+
+  .sk-docs-rendered[data-footnote-layout="sidenotes"] .sk-docs-sidenote {
+    display: inline;
+    float: inline-end;
+    clear: inline-end;
+    inline-size: min(18rem, var(--sk-docs-sidenote-width, 30%));
+    margin-inline-end: calc(-1 * min(20rem, var(--sk-docs-sidenote-offset, 32%)));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sk-docs-rendered {
+    scroll-behavior: auto;
+  }
+}

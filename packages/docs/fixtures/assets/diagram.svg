@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 90" role="img" aria-labelledby="title">
+  <title id="title">Three connected document nodes</title>
+  <g fill="none" stroke="#555" stroke-width="4">
+    <path d="M40 45h80" />
+    <circle cx="30" cy="45" r="16" fill="#ddd" />
+    <circle cx="80" cy="45" r="16" fill="#bbb" />
+    <circle cx="130" cy="45" r="16" fill="#999" />
+  </g>
+</svg>

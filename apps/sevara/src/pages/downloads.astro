@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="下载 — Sevara">
+  <div class="shell doc-layout">
+    <aside class="doc-nav"><p class="eyebrow">Artifacts</p><a href="#overview">权威快照 PDF</a><a href="#companion">完整伴读 PDF</a><a href="#source">来源说明</a></aside>
+    <article class="prose"><p class="eyebrow">Portable edition</p><h1>下载</h1><p>网站正文与 PDF 由同一个固定提交的 Typst 权威源生成；网页负责阅读与导航，PDF 保留分页版本。</p>
+      <div class="download-card" id="overview"><div><strong>Sevara 权威快照</strong><small>与公开规范网页同源；保留稳定的概览下载地址。</small></div><a class="button" href="/sevara/downloads/sevara-overview.pdf">PDF</a></div>
+      <div class="download-card" id="companion"><div><strong>Sevara 完整资产伴读</strong><small>由权威仓的 explanatory Typst 源生成，不取代公开规范。</small></div><a class="button" href="/sevara/downloads/sevara-language-companion.pdf">PDF</a></div>
+      <h2 id="source">可复现来源</h2><p>运行 <code>pnpm publish:prepare</code>。发布阶段会同步并校验固定提交，再由 Typst 同时生成网页正文制品和 PDF；Cloudflare 的常规 Web 构建只验证并装配这些制品。</p>
+    </article>
+  </div>
+</BaseLayout>

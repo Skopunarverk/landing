@@ -1,0 +1,25 @@
+{
+  "document": {
+    "id": "contract-fixture",
+    "namespace": "contract-fixture",
+    "title": "Shared document contract",
+    "lang": "en"
+  },
+  "sourceCommit": "1111111111111111111111111111111111111111",
+  "generatedAt": "2026-07-11T00:00:00.000Z",
+  "targets": ["html", "pdf"],
+  "artifacts": [
+    {
+      "target": "html",
+      "path": "/fixture/",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "bytes": 100
+    },
+    {
+      "target": "pdf",
+      "path": "/fixture/document.pdf",
+      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "bytes": 200
+    }
+  ]
+}

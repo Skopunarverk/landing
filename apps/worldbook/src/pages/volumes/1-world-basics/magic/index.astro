@@ -1,0 +1,15 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import RenderedTypst from "@skopunarverk/docs/astro/RenderedTypst.astro";
+import content from "../../../../generated/authoritative-content.json";
+---
+<BaseLayout title="什么是魔法？— The World Book" description="The World Book 第一卷：魔法体系导读。">
+  <div class="page reader"><aside class="folio-nav"><strong>I · 世界基础</strong><p>本章由 TheWorldBook 权威 Typst 源直接生成；第一卷 PDF 包含同一章源文件。</p><a href="/worldbook/downloads/Volume1_WorldBasics.pdf">下载同源第一卷 PDF</a><a href="/worldbook/volumes/">返回四卷目录</a></aside>
+    <article class="prose"><p class="kicker">Volume I · Chapter 1 · {content.source.commit.slice(0, 12)}</p>
+      <style is:global set:html={content.style}></style>
+      <RenderedTypst variant="article" lang="zh-CN">
+        <Fragment set:html={content.body} />
+      </RenderedTypst>
+    </article>
+  </div>
+</BaseLayout>

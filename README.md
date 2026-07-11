@@ -1,54 +1,56 @@
-# Sköpunarverk Landing
+# Sköpunarverk Web
 
-Sköpunarverk 项目群的统一入口，展示 TheWorldBook、Sevara 与 ex_mmo_cluster 三个项目如何共同组成一个可被书写、表达和运行的世界。
+Sköpunarverk 公共网站 monorepo。三个站点在同一个 lockfile 下协作，但保留独立的页面设计、构建产物和 Cloudflare 部署边界。
 
-## 版本对比
-
-- `/`：原版，以项目群和三仓关系为主。
-- `/v2`：体素叙事版，融合星空、体素世界、滚动显现与更完整的世界系统叙事。
-
-两版都在顶栏提供版本切换入口，原版不会被新版覆盖。
-
-## 本地运行
-
-```bash
-npm install
-npm run dev
+```text
+apps/
+├── landing/
+├── sevara/
+└── worldbook/
+packages/
+├── brand/
+├── ui/
+└── docs/
 ```
 
-## 验证
+## 本地开发
 
 ```bash
-npm run build
-npm test
-npm run lint
+pnpm install
+pnpm dev:landing
 ```
 
-页面使用 Tailwind CSS 4。共享令牌位于 `app/styles/theme.css`；通用 UI、站点外壳和动效基础设施分别位于 `app/components/ui/`、`app/components/site/`、`app/components/motion/`，每个公共 React 组件独占一个文件。版本专属艺术效果保留在各自样式文件中。详细治理规则见 `DESIGN_SYSTEM.md`。
+## 全仓验证
+
+```bash
+pnpm build
+pnpm lint
+pnpm test
+pnpm cloudflare:check
+```
+
+## Typst 内容发布
+
+Sevara 与 The World Book 的网页正文不是手写副本。发布阶段从
+`sources.lock.json` 指定的权威 Git 提交生成 HTML 内容制品与 PDF：
+
+```bash
+pnpm publish:prepare
+```
+
+该命令会同步 `.sources/`、校验远端地址、提交 SHA 与干净状态，然后调用
+Typst 生成制品和发布清单。普通 `pnpm build` 不依赖系统 Typst 或本地内容仓，
+只验证已提交制品与 lock 一致，因此 Cloudflare 的干净 checkout 可以重建 Web。
 
 ## Cloudflare 部署
 
-正式站使用 Cloudflare Worker `skopunarverk`，并将 `skopunarverk.com` 作为 Worker Custom Domain。Worker 同时上传 `dist/client` 静态资源；SSR、RSC 和动态 metadata 由 Vinext Worker 处理。
-
-首次或手工发布：
-
 ```bash
-npm run lint
-npm test
-npm run cloudflare:types
-npm run cloudflare:check
-npm run deploy:cloudflare
+pnpm deploy:sevara
+pnpm deploy:worldbook
+pnpm deploy:landing
 ```
 
-若要像 Wonderland 一样启用 Workers Builds，在 Cloudflare 的 `Workers & Pages → Import a repository` 中选择 landing 仓库，并设置：
+根站由 Worker `skopunarverk` 承载；`/sevara*` 与 `/worldbook*` 分别由独立
+静态资产 Worker 承载。文档站部署命令会先重新构建，避免发布陈旧 `dist`。
 
-- Production branch：`main`
-- Root directory：`/`
-- Build command：`npm run build`
-- Deploy command：`npx wrangler deploy`
-- Non-production deploy command：`npx wrangler versions upload`
-- Non-production branch builds：启用
-- Build watch paths：`*`
-- Build cache：启用
-
-当前站点不需要 D1、KV、R2 或构建密钥。`www.skopunarverk.com` 未绑定；若后续启用，优先用 Cloudflare Redirect Rule 永久跳转到根域，保持唯一规范地址。
+定向操作某个 workspace 时使用 `pnpm --filter <package-name> <command>`。Landing 的路由、开发和部署说明见 [`apps/landing/README.md`](apps/landing/README.md)。

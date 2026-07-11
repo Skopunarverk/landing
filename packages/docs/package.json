@@ -1,0 +1,31 @@
+{
+  "name": "@skopunarverk/docs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared Typst rendering contracts and framework-neutral document adapters for Sköpunarverk.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./astro": "./src/astro/index.ts",
+    "./astro/RenderedTypst.astro": "./src/astro/RenderedTypst.astro",
+    "./styles/functional.css": "./src/styles/functional.css",
+    "./typst": "./typst/lib.typ",
+    "./typst/*": "./typst/*"
+  },
+  "bin": {
+    "skopunarverk-docs": "./src/cli/index.mjs"
+  },
+  "files": [
+    "src",
+    "typst",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "test:typst": "node --test tests/typst-contract.test.mjs",
+    "validate": "node ./src/cli/index.mjs validate ./fixtures/publication-manifest.json"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

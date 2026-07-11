@@ -1,0 +1,26 @@
+{
+  "name": "@skopunarverk/ui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./react": "./src/react/index.ts",
+    "./astro/*": "./src/astro/*.astro",
+    "./styles.css": "./src/styles.css"
+  },
+  "peerDependencies": {
+    "@skopunarverk/brand": "workspace:*",
+    "astro": ">=6.4.6 <7",
+    "react": ">=19"
+  },
+  "peerDependenciesMeta": {
+    "astro": { "optional": true },
+    "react": { "optional": true }
+  },
+  "devDependencies": {
+    "astro": "6.4.6"
+  },
+  "scripts": {
+    "test": "node --test tests/contracts.test.mjs"
+  }
+}

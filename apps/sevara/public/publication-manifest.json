@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "product": "sevara",
+  "title": "Sevara",
+  "basePath": "/sevara/",
+  "document": {
+    "id": "sevara",
+    "namespace": "sevara",
+    "title": "Sevara",
+    "lang": "zh-CN",
+    "canonicalPath": "/sevara/"
+  },
+  "sourceCommit": "9625a20b863acd5122e2d10f06950dabb418b07f",
+  "generatedAt": "2026-07-11T05:48:21.895Z",
+  "targets": [
+    "html",
+    "pdf"
+  ],
+  "source": {
+    "repository": "https://github.com/dyzdyz010/sevara.git",
+    "commit": "9625a20b863acd5122e2d10f06950dabb418b07f",
+    "committedAt": "2026-07-10T19:46:17+08:00"
+  },
+  "sourceSnapshot": {
+    "path": "src/generated/authoritative-content.json",
+    "bytes": 54467,
+    "sha256": "ed2b71599eb699e5fc39d544f0e0e3b887476f4fd424ffba4eb651449710d3ca"
+  },
+  "generator": {
+    "docsPackage": "0.1.0",
+    "typst": "0.15.0"
+  },
+  "authority": {
+    "normative": "docs/sevara/spec/current.md",
+    "companion": "docs/sevara/complete_asset/current.typ"
+  },
+  "maturity": "greenfield",
+  "profiles": [
+    "Surface",
+    "Canonical",
+    "Execution"
+  ],
+  "downloads": {
+    "overview": {
+      "target": "pdf",
+      "url": "/sevara/downloads/sevara-overview.pdf",
+      "bytes": 638490,
+      "sha256": "c79de6cccb7ef444d1338ee5dccda12b873fe2df7a006c6311267caa5e376c8c"
+    },
+    "companion": {
+      "target": "pdf",
+      "url": "/sevara/downloads/sevara-language-companion.pdf",
+      "bytes": 638490,
+      "sha256": "c79de6cccb7ef444d1338ee5dccda12b873fe2df7a006c6311267caa5e376c8c"
+    }
+  },
+  "artifacts": [
+    {
+      "target": "html",
+      "path": "/sevara/spec/foundations/",
+      "bytes": 55076,
+      "sha256": "b5601ae3ef2aff6c4efeffffe54e654f9d896d8f576b1368297f771530d1aa3d"
+    },
+    {
+      "target": "pdf",
+      "path": "/sevara/downloads/sevara-overview.pdf",
+      "bytes": 638490,
+      "sha256": "c79de6cccb7ef444d1338ee5dccda12b873fe2df7a006c6311267caa5e376c8c"
+    },
+    {
+      "target": "pdf",
+      "path": "/sevara/downloads/sevara-language-companion.pdf",
+      "bytes": 638490,
+      "sha256": "c79de6cccb7ef444d1338ee5dccda12b873fe2df7a006c6311267caa5e376c8c"
+    }
+  ]
+}

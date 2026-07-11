@@ -1,0 +1,16 @@
+---
+import { products, type ProductId } from "@skopunarverk/brand";
+import BrandMark from "./BrandMark.astro";
+interface Props { active: ProductId }
+const { active } = Astro.props;
+---
+<header class="sk-header">
+  <div class="sk-container sk-header__inner">
+    <BrandMark />
+    <nav class="sk-product-nav" aria-label="Sköpunarverk 产品导航">
+      {products.filter((product) => product.id !== "runtime").map((product) => (
+        <a href={product.href} aria-current={product.id === active ? "page" : undefined}>{product.shortName}</a>
+      ))}
+    </nav>
+  </div>
+</header>

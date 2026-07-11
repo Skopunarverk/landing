@@ -1,0 +1,13 @@
+---
+import type { ProductId } from "@skopunarverk/brand";
+import GlobalFooter from "./GlobalFooter.astro";
+import GlobalHeader from "./GlobalHeader.astro";
+interface Props { active: ProductId }
+const { active } = Astro.props;
+---
+<div class="sk-shell">
+  <a class="sk-skip-link" href="#main-content">跳到正文</a>
+  <GlobalHeader active={active} />
+  <main id="main-content"><slot /></main>
+  <GlobalFooter />
+</div>

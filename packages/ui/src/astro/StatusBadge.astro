@@ -1,0 +1,6 @@
+---
+interface Props { tone?: "neutral" | "cyan" | "violet" | "gold" | "positive" }
+const { tone = "neutral" } = Astro.props;
+const colors = { neutral: "var(--sk-color-muted)", cyan: "var(--sk-color-cyan)", violet: "var(--sk-color-violet)", gold: "var(--sk-color-gold)", positive: "var(--sk-color-positive)" };
+---
+<span class="sk-badge" style={`--sk-badge-color:${colors[tone]}`}><slot /></span>

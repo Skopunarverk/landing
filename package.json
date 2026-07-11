@@ -1,44 +1,46 @@
 {
-  "name": "skopunarverk-landing",
+  "name": "skopunarverk-web",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.24.0",
   "engines": {
     "node": ">=22.13.0"
   },
   "scripts": {
-    "dev": "vinext dev",
-    "build": "vinext build",
-    "start": "vinext start",
-    "test": "npm run build && node --test tests/rendered-html.test.mjs",
-    "lint": "eslint app tests --no-warn-ignored",
-    "cloudflare:types": "wrangler types",
-    "cloudflare:check": "npm run build && wrangler deploy --dry-run",
-    "deploy:cloudflare": "vinext deploy",
-    "db:generate": "drizzle-kit generate"
-  },
-  "dependencies": {
-    "drizzle-orm": "0.45.2",
-    "next": "16.2.6",
-    "react": "19.2.6",
-    "react-dom": "19.2.6"
+    "dev:landing": "pnpm --filter @skopunarverk/landing dev",
+    "dev:sevara": "pnpm --filter @skopunarverk/sevara-site dev",
+    "dev:worldbook": "pnpm --filter @skopunarverk/worldbook-site dev",
+    "content:verify": "node tooling/content/verify.mjs",
+    "content:verify:pinned": "node tooling/content/verify.mjs --checkouts",
+    "content:sync": "node tooling/content/sync.mjs",
+    "web-content:generate": "node tooling/build/generate-web-content.mjs",
+    "web-content:verify": "node tooling/build/verify-web-content.mjs",
+    "pdf:build": "pnpm --filter @skopunarverk/sevara-site pdf:build && pnpm --filter @skopunarverk/worldbook-site pdf:build",
+    "manifests:build": "node tooling/build/generate-manifests.mjs",
+    "manifests:validate": "node packages/docs/src/cli/index.mjs validate apps/sevara/public/publication-manifest.json && node packages/docs/src/cli/index.mjs validate apps/worldbook/public/publication-manifest.json && node tooling/build/verify-publication-artifacts.mjs",
+    "build:apps": "pnpm --filter @skopunarverk/landing --filter @skopunarverk/sevara-site --filter @skopunarverk/worldbook-site -r run build",
+    "publish:prepare": "pnpm content:sync && pnpm content:verify:pinned && pnpm web-content:generate && pnpm pdf:build && pnpm build:apps && pnpm manifests:build && pnpm manifests:validate",
+    "build": "pnpm content:verify && pnpm web-content:verify && pnpm build:apps && pnpm manifests:validate",
+    "check": "pnpm -r --if-present run check",
+    "lint": "pnpm -r --if-present run lint",
+    "test": "pnpm -r --if-present run test",
+    "cloudflare:check": "pnpm --filter @skopunarverk/landing cloudflare:check && pnpm --filter @skopunarverk/sevara-site cloudflare:check && pnpm --filter @skopunarverk/worldbook-site cloudflare:check",
+    "deploy:landing": "pnpm --filter @skopunarverk/landing deploy:cloudflare",
+    "deploy:sevara": "pnpm build && pnpm exec wrangler deploy --config apps/sevara/wrangler.jsonc",
+    "deploy:worldbook": "pnpm build && pnpm exec wrangler deploy --config apps/worldbook/wrangler.jsonc"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "1.37.1",
-    "@tailwindcss/postcss": "4.2.1",
-    "@types/node": "22.19.19",
-    "@types/react": "19.2.14",
-    "@types/react-dom": "19.2.3",
-    "@vitejs/plugin-react": "6.0.2",
-    "@vitejs/plugin-rsc": "0.5.26",
-    "drizzle-kit": "0.31.10",
-    "eslint": "9.39.4",
-    "eslint-config-next": "16.2.6",
-    "react-server-dom-webpack": "19.2.6",
-    "tailwindcss": "4.2.1",
-    "typescript": "5.9.3",
-    "vinext": "0.0.50",
-    "vite": "8.0.13",
-    "wrangler": "^4.110.0"
+    "wrangler": "4.110.0"
   },
-  "type": "module"
+  "pnpm": {
+    "overrides": {
+      "postcss": "8.5.10"
+    },
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp",
+      "unrs-resolver",
+      "workerd"
+    ]
+  }
 }

@@ -1,0 +1,25 @@
+{
+  "name": "@skopunarverk/sevara-site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && node scripts/finalize-dist.mjs",
+    "preview": "astro preview",
+    "check": "astro check",
+    "test": "astro check",
+    "pdf:build": "node scripts/build-pdf.mjs",
+    "cloudflare:check": "pnpm run build && wrangler deploy --dry-run --config wrangler.jsonc"
+  },
+  "dependencies": {
+    "@skopunarverk/brand": "workspace:*",
+    "@skopunarverk/docs": "workspace:*",
+    "@skopunarverk/ui": "workspace:*",
+    "astro": "6.4.6"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.9",
+    "typescript": "5.9.3"
+  }
+}

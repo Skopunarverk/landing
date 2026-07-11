@@ -1,0 +1,53 @@
+---
+import type { ContentFeatureOptions, ContentFeatureVariant } from "./index";
+
+interface Props {
+  Content?: any;
+  variant?: ContentFeatureVariant;
+  features?: ContentFeatureOptions;
+  class?: string;
+  lang?: string;
+}
+
+const {
+  Content,
+  variant = "article",
+  features: overrides = {},
+  class: className = "",
+  lang,
+} = Astro.props;
+
+const defaults: Record<ContentFeatureVariant, Required<ContentFeatureOptions>> = {
+  article: {
+    toc: true,
+    headingLinks: true,
+    footnotes: true,
+    footnoteLayout: "endnotes",
+  },
+  embed: {
+    toc: false,
+    headingLinks: false,
+    footnotes: false,
+    footnoteLayout: "endnotes",
+  },
+  excerpt: {
+    toc: false,
+    headingLinks: false,
+    footnotes: false,
+    footnoteLayout: "endnotes",
+  },
+};
+
+const features = { ...defaults[variant], ...overrides };
+---
+
+<div
+  class:list={["sk-docs-rendered", `sk-docs-rendered--${variant}`, className]}
+  data-toc={features.toc ? "on" : "off"}
+  data-heading-links={features.headingLinks ? "on" : "off"}
+  data-footnotes={features.footnotes ? "on" : "off"}
+  data-footnote-layout={features.footnoteLayout}
+  lang={lang}
+>
+  {Content ? <Content /> : <slot />}
+</div>

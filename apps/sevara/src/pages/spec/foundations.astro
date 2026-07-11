@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import RenderedTypst from "@skopunarverk/docs/astro/RenderedTypst.astro";
+import content from "../../generated/authoritative-content.json";
+---
+
+<BaseLayout title="总体原则 — Sevara 公开规范" description="Sevara 公开规范的总体原则、三种话语模式与三层 Profile。">
+  <div class="shell doc-layout">
+    <aside class="doc-nav" aria-label="本页目录">
+      <p class="eyebrow">公开规范 · 权威快照</p>
+      <p>本页由 Sevara 权威 Typst 源在发布阶段直接生成，不维护第二份网页正文。</p>
+      <a href="/sevara/downloads/sevara-language-companion.pdf">下载同源 PDF</a>
+    </aside>
+    <article class="prose">
+      <p class="eyebrow">Normative source · {content.source.commit.slice(0, 12)}</p>
+      <style is:global set:html={content.style}></style>
+      <RenderedTypst variant="article" lang="zh-CN">
+        <Fragment set:html={content.body} />
+      </RenderedTypst>
+    </article>
+  </div>
+</BaseLayout>

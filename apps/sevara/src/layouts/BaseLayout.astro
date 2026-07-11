@@ -1,0 +1,59 @@
+---
+import "../styles/global.css";
+import "@skopunarverk/brand/tokens.css";
+import "@skopunarverk/docs/styles/functional.css";
+import "@skopunarverk/ui/styles.css";
+import GlobalFooter from "@skopunarverk/ui/astro/GlobalFooter";
+import GlobalHeader from "@skopunarverk/ui/astro/GlobalHeader";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Sevara — 受控自然语言式魔法语",
+  description = "Sevara 的公开语言规范、设计原则与非规范性伴读。",
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const path = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/sevara/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#0b1211" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">跳到正文</a>
+    <GlobalHeader active="sevara" />
+    <header class="site-header">
+      <div class="shell header-row">
+        <a class="brand" href="/sevara/" aria-label="Sevara 首页">
+          <span class="brand-glyph" aria-hidden="true">S</span>
+          <span><strong>Sevara</strong><small>Language system</small></span>
+        </a>
+        <nav class="top-nav" aria-label="主要导航">
+          <a href="/sevara/spec/foundations/" aria-current={path.includes("/spec/") ? "page" : undefined}>公开规范</a>
+          <a href="/sevara/companion/" aria-current={path.includes("/companion/") ? "page" : undefined}>伴读</a>
+          <a href="/sevara/downloads/" aria-current={path.includes("/downloads/") ? "page" : undefined}>下载</a>
+          <a href="/" aria-label="返回 Sköpunarverk">Sköpunarverk ↗</a>
+        </nav>
+      </div>
+    </header>
+    <main id="content" class="site-main"><slot /></main>
+    <footer class="site-footer">
+      <div class="shell footer-row">
+        <span>Sevara 是一门处于 greenfield 设计期的受控自然语言。</span>
+        <a href="/sevara/publication-manifest.json">Publication manifest</a>
+      </div>
+    </footer>
+    <GlobalFooter />
+  </body>
+</html>

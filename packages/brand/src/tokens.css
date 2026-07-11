@@ -1,0 +1,22 @@
+:root {
+  --sk-color-canvas: #060812;
+  --sk-color-surface: #101426;
+  --sk-color-surface-strong: #0a0d1c;
+  --sk-color-line: rgba(154, 170, 225, 0.16);
+  --sk-color-text: #f5f7ff;
+  --sk-color-muted: #b7bdd2;
+  --sk-color-dim: #69728f;
+  --sk-color-cyan: #61d9ff;
+  --sk-color-violet: #8c7cff;
+  --sk-color-magenta: #ff7bcb;
+  --sk-color-gold: #ffcc7a;
+  --sk-color-positive: #79f0cb;
+  --sk-font-sans: Inter, "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+  --sk-font-display: "Iowan Old Style", "Noto Serif SC", "Songti SC", STSong, serif;
+  --sk-font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --sk-radius-control: 0.8rem;
+  --sk-radius-panel: 1.5rem;
+  --sk-ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+  --sk-shadow-panel: 0 32px 100px rgba(2, 4, 18, 0.6), 0 0 60px rgba(97, 217, 255, 0.08);
+  --sk-container: 90rem;
+}
