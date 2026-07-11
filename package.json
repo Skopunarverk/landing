@@ -24,7 +24,7 @@
     "check": "pnpm -r --if-present run check",
     "lint": "pnpm -r --if-present run lint",
     "test": "pnpm -r --if-present run test",
-    "cloudflare:check": "pnpm --filter @skopunarverk/landing cloudflare:check && pnpm --filter @skopunarverk/sevara-site cloudflare:check && pnpm --filter @skopunarverk/worldbook-site cloudflare:check",
+    "cloudflare:check": "pnpm --filter @skopunarverk/landing cloudflare:check && pnpm exec wrangler deploy --dry-run --config wrangler.jsonc && pnpm --filter @skopunarverk/sevara-site cloudflare:check && pnpm --filter @skopunarverk/worldbook-site cloudflare:check",
     "deploy:landing": "pnpm --filter @skopunarverk/landing deploy:cloudflare",
     "deploy:sevara": "pnpm build && pnpm exec wrangler deploy --config apps/sevara/wrangler.jsonc",
     "deploy:worldbook": "pnpm build && pnpm exec wrangler deploy --config apps/worldbook/wrangler.jsonc"

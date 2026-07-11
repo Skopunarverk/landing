@@ -1,0 +1,34 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  // Root adapter for Cloudflare Workers Builds. The application-owned config
+  // remains apps/landing/wrangler.jsonc; paths here are relative to the monorepo root.
+  "name": "skopunarverk",
+  "account_id": "8bafdbd1f2d967917dbc0a67156266fa",
+  "compatibility_date": "2026-07-10",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "./apps/landing/dist/server/index.js",
+  "no_bundle": true,
+  "rules": [
+    {
+      "type": "ESModule",
+      "globs": ["**/*.js", "**/*.mjs"]
+    }
+  ],
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    {
+      "pattern": "skopunarverk.com",
+      "custom_domain": true
+    }
+  ],
+  "assets": {
+    "directory": "./apps/landing/dist/client",
+    "not_found_handling": "none",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
+}
