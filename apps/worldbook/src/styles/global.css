@@ -85,7 +85,10 @@ a { color: inherit; }
 .prose p { max-width: 70ch; }
 .prose > .sk-docs-rendered > p:first-of-type { font-size: 1.08rem; }
 .prose > .sk-docs-rendered > p:first-of-type::first-letter { float: left; padding: .08em .08em 0 0; color: var(--wine); font: 600 4.3rem/.76 var(--serif); }
-.figure { margin: 2.5rem 0; padding: 2rem; border-block: 1px solid var(--line); text-align: center; }
+.figure, .prose .sk-docs-rendered figure { margin: 2.5rem 0; padding: clamp(1rem, 4vw, 2rem); border-block: 1px solid var(--line); text-align: center; }
+.prose .worldbook-visual-island { display: grid; max-inline-size: 100%; place-items: center; overflow-x: auto; border-radius: .35rem; background: color-mix(in srgb, var(--paper-bright) 74%, transparent); }
+.prose .worldbook-visual-island > :where(img, svg) { display: block; max-inline-size: 100%; block-size: auto; }
+.prose .sk-docs-rendered figcaption { margin-top: 1rem; color: var(--muted); font: .7rem/1.5 var(--sans); letter-spacing: .02em; }
 .flow { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; }
 .flow span { padding: .6rem .8rem; border: 1px solid var(--line); background: var(--paper-bright); }
 .flow i { align-self: center; color: var(--coral); font-style: normal; }

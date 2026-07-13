@@ -131,7 +131,14 @@ importers:
 
   packages/brand: {}
 
-  packages/docs: {}
+  packages/docs:
+    dependencies:
+      parse5:
+        specifier: 7.3.0
+        version: 7.3.0
+      postcss:
+        specifier: 8.5.10
+        version: 8.5.10
 
   packages/ui:
     dependencies:

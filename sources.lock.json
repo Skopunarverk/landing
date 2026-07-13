@@ -8,8 +8,8 @@
     },
     "worldbook": {
       "repository": "https://github.com/Hemifuture/TheWorldBook.git",
-      "commit": "d1b8a24aabb2300391ae3e348b5ec8ff6d6666ef",
-      "committedAt": "2026-07-13T11:24:40+08:00",
+      "commit": "bfc5e73fb5b1dac1cefb4107c34ad709292c3ae8",
+      "committedAt": "2026-07-13T12:43:30+08:00",
       "publication": {
         "mode": "structured",
         "path": "publication/worldbook.json",

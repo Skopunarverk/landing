@@ -26,6 +26,14 @@ export type {
   WorldbookVolumeStatus,
 } from "./schema/worldbook-publication";
 
+export type {
+  AuthoritativeContentV2,
+  GeneratedHtmlAudit,
+  TypstDependencySummary,
+  TypstDiagnosticPolicy,
+  TypstDiagnosticSummary,
+} from "./schema/authoritative-content";
+
 export {
   assertWorldbookPublicationSource,
   generateWorldbookPublicationIndex,

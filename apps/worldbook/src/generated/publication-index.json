@@ -193,7 +193,7 @@
   ],
   "source": {
     "repository": "https://github.com/Hemifuture/TheWorldBook.git",
-    "commit": "d1b8a24aabb2300391ae3e348b5ec8ff6d6666ef",
+    "commit": "bfc5e73fb5b1dac1cefb4107c34ad709292c3ae8",
     "path": "publication/worldbook.json",
     "sha256": "7e4c9d9bc1b2f0dca252f7806ed6088d64d668a2740f2267e59699a35c359a21",
     "mode": "structured"

@@ -10,16 +10,16 @@
     "lang": "zh-CN",
     "canonicalPath": "/worldbook/"
   },
-  "sourceCommit": "d1b8a24aabb2300391ae3e348b5ec8ff6d6666ef",
-  "generatedAt": "2026-07-13T11:24:40+08:00",
+  "sourceCommit": "bfc5e73fb5b1dac1cefb4107c34ad709292c3ae8",
+  "generatedAt": "2026-07-13T12:43:30+08:00",
   "targets": [
     "html",
     "pdf"
   ],
   "source": {
     "repository": "https://github.com/Hemifuture/TheWorldBook.git",
-    "commit": "d1b8a24aabb2300391ae3e348b5ec8ff6d6666ef",
-    "committedAt": "2026-07-13T11:24:40+08:00",
+    "commit": "bfc5e73fb5b1dac1cefb4107c34ad709292c3ae8",
+    "committedAt": "2026-07-13T12:43:30+08:00",
     "publication": {
       "mode": "structured",
       "path": "publication/worldbook.json",
@@ -28,16 +28,16 @@
   },
   "sourceSnapshot": {
     "path": "src/generated/authoritative-content.json",
-    "bytes": 84462,
-    "sha256": "875593639aeb2f3d38a73b45fe04bc2a94afdfab6341d4573d2090739e154d8d"
+    "bytes": 139092,
+    "sha256": "8c41538b518273f1ea13cb4b7ef22acf37942a9a45bb984340514219d1ecf9ad"
   },
   "publicationIndex": {
     "path": "src/generated/publication-index.json",
     "bytes": 6978,
-    "sha256": "141ef0b2d58556481ee27a653dc1e493b7cd4119d5faf891ac528d60d3db188d",
+    "sha256": "1ab667561da2d335c698a526dbc6ce1f63184912768890f0bdf0284ec03ca06f",
     "source": {
       "repository": "https://github.com/Hemifuture/TheWorldBook.git",
-      "commit": "d1b8a24aabb2300391ae3e348b5ec8ff6d6666ef",
+      "commit": "bfc5e73fb5b1dac1cefb4107c34ad709292c3ae8",
       "path": "publication/worldbook.json",
       "sha256": "7e4c9d9bc1b2f0dca252f7806ed6088d64d668a2740f2267e59699a35c359a21",
       "mode": "structured"
@@ -68,8 +68,8 @@
       "artifact": {
         "target": "pdf",
         "url": "/worldbook/downloads/Volume1_WorldBasics.pdf",
-        "bytes": 747138,
-        "sha256": "bd36eafc6ec3c6ae4a65fef0c65fc7d34d2895f9b923813d1bc9a19c433dd74a"
+        "bytes": 746858,
+        "sha256": "e2e8e49242feac4510a40a2bb282da8806e196e3ccac9a8776bd783b72d517d7"
       }
     },
     {
@@ -83,7 +83,7 @@
         "target": "pdf",
         "url": "/worldbook/downloads/Volume2_HistoryAndSocialEvolution.pdf",
         "bytes": 303239,
-        "sha256": "f74ce3b46cc2f87ee024b5abe1a538486466439860139c79c6152b6d124d1e35"
+        "sha256": "14faf05c5abb2bb70d0dc80d834d617292fdf32040ae5a6239a7e84c99381da4"
       }
     },
     {
@@ -97,7 +97,7 @@
         "target": "pdf",
         "url": "/worldbook/downloads/Volume3_CultureAndCivilization.pdf",
         "bytes": 302651,
-        "sha256": "6e0a3790a68df4e34851d3d424b8740d5aa6383e1685270efdb7941a944bbb99"
+        "sha256": "1cee1a5f2a70ed7535c06893485db0a9bbe89b0de3bde5e5699e0eae19d14327"
       }
     },
     {
@@ -111,7 +111,7 @@
         "target": "pdf",
         "url": "/worldbook/downloads/Volume4_SocialLifeAndChallenge.pdf",
         "bytes": 303222,
-        "sha256": "2ab8b9fcbeff207fb47277dd29447e3c3e4069672b1c010dd332421313398445"
+        "sha256": "f1f85640aa7ce5b947c454cd2e2b60aea0e5a27de259d56f63bd789993cbed1b"
       }
     }
   ],
@@ -119,32 +119,32 @@
     {
       "target": "html",
       "path": "/worldbook/volumes/1-world-basics/magic/",
-      "bytes": 86446,
-      "sha256": "8baa0d1fc6999ba94e6f1d82f27bf1f4ce43ec13ddea419d680fd3b07a42f29a"
+      "bytes": 122602,
+      "sha256": "afb06b213eff06145910b7c7aec3a016a0b48c79d27cbd07646bd5ee27c9f87e"
     },
     {
       "target": "pdf",
       "path": "/worldbook/downloads/Volume1_WorldBasics.pdf",
-      "bytes": 747138,
-      "sha256": "bd36eafc6ec3c6ae4a65fef0c65fc7d34d2895f9b923813d1bc9a19c433dd74a"
+      "bytes": 746858,
+      "sha256": "e2e8e49242feac4510a40a2bb282da8806e196e3ccac9a8776bd783b72d517d7"
     },
     {
       "target": "pdf",
       "path": "/worldbook/downloads/Volume2_HistoryAndSocialEvolution.pdf",
       "bytes": 303239,
-      "sha256": "f74ce3b46cc2f87ee024b5abe1a538486466439860139c79c6152b6d124d1e35"
+      "sha256": "14faf05c5abb2bb70d0dc80d834d617292fdf32040ae5a6239a7e84c99381da4"
     },
     {
       "target": "pdf",
       "path": "/worldbook/downloads/Volume3_CultureAndCivilization.pdf",
       "bytes": 302651,
-      "sha256": "6e0a3790a68df4e34851d3d424b8740d5aa6383e1685270efdb7941a944bbb99"
+      "sha256": "1cee1a5f2a70ed7535c06893485db0a9bbe89b0de3bde5e5699e0eae19d14327"
     },
     {
       "target": "pdf",
       "path": "/worldbook/downloads/Volume4_SocialLifeAndChallenge.pdf",
       "bytes": 303222,
-      "sha256": "2ab8b9fcbeff207fb47277dd29447e3c3e4069672b1c010dd332421313398445"
+      "sha256": "f1f85640aa7ce5b947c454cd2e2b60aea0e5a27de259d56f63bd789993cbed1b"
     }
   ]
 }
