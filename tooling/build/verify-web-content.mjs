@@ -3,9 +3,11 @@ import path from "node:path";
 import {
   auditGeneratedCss,
   auditHtmlFragment,
+  decorateHtmlFragment,
   publicHtmlAudit,
   validateDiagnosticSummary,
   validateDependencySummary,
+  validateDocumentOutline,
 } from "../../packages/docs/src/schema/authoritative-content.mjs";
 import { readSourcesLock, workspaceRoot } from "../content/source-integrity.mjs";
 
@@ -18,7 +20,7 @@ const artifacts = [
 for (const [id, relativePath, canonicalPath, sourcePath] of artifacts) {
   const value = JSON.parse(await readFile(path.join(workspaceRoot, relativePath), "utf8"));
   const errors = [];
-  if (value.schemaVersion !== 2) errors.push("schemaVersion must be 2");
+  if (value.schemaVersion !== 3) errors.push("schemaVersion must be 3");
   if (value.product !== id) errors.push(`product must be ${id}`);
   if (value.canonicalPath !== canonicalPath) errors.push(`canonicalPath must be ${canonicalPath}`);
   if (value.source?.repository !== lock.sources[id].repository) errors.push("source repository differs from sources.lock.json");
@@ -42,6 +44,16 @@ for (const [id, relativePath, canonicalPath, sourcePath] of artifacts) {
   if (value.diagnostics?.blockedCount !== 0) errors.push("diagnostics.blockedCount must be zero");
 
   if (typeof value.body === "string") {
+    const decorated = decorateHtmlFragment(value.body, {
+      namespace: id,
+      equationLabel: "数学公式；可横向滚动查看完整内容",
+      footnoteTitle: "脚注",
+      footnoteReferenceLabel: "脚注",
+      footnoteBackreferenceLabel: "返回脚注引用",
+    });
+    errors.push(...validateDocumentOutline(value.outline, { namespace: id }));
+    if (decorated.body !== value.body) errors.push("rendered body is not normalized with heading anchors and equation wrappers");
+    if (JSON.stringify(decorated.outline) !== JSON.stringify(value.outline)) errors.push("outline does not match rendered body");
     const audited = auditHtmlFragment(value.body);
     if (audited.errors.length) errors.push(...audited.errors.map((error) => `HTML audit: ${error}`));
     if (JSON.stringify(publicHtmlAudit(audited)) !== JSON.stringify(value.htmlAudit)) errors.push("htmlAudit does not match rendered body");

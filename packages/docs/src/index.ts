@@ -27,7 +27,9 @@ export type {
 } from "./schema/worldbook-publication";
 
 export type {
-  AuthoritativeContentV2,
+  AuthoritativeContentV3,
+  DocumentOutline,
+  DocumentOutlineItem,
   GeneratedHtmlAudit,
   TypstDependencySummary,
   TypstDiagnosticPolicy,

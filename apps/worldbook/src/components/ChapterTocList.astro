@@ -1,0 +1,24 @@
+---
+interface TocNode {
+  id: string;
+  level: number;
+  text: string;
+  children: TocNode[];
+}
+
+interface Props {
+  items: TocNode[];
+  depth?: number;
+}
+
+const { items, depth = 1 } = Astro.props;
+---
+
+<ol class:list={["chapter-toc__list", `chapter-toc__list--depth-${depth}`]}>
+  {items.map((item) => (
+    <li>
+      <a href={`#${item.id}`} data-chapter-toc-link>{item.text}</a>
+      {item.children.length > 0 ? <Astro.self items={item.children} depth={depth + 1} /> : null}
+    </li>
+  ))}
+</ol>

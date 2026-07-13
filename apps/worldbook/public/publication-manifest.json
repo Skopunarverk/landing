@@ -28,8 +28,8 @@
   },
   "sourceSnapshot": {
     "path": "src/generated/authoritative-content.json",
-    "bytes": 139092,
-    "sha256": "8c41538b518273f1ea13cb4b7ef22acf37942a9a45bb984340514219d1ecf9ad"
+    "bytes": 148486,
+    "sha256": "e5a054098df07abfef172b52c718f3ade7beda035398f5665bf23155b971e4e2"
   },
   "publicationIndex": {
     "path": "src/generated/publication-index.json",
@@ -119,8 +119,8 @@
     {
       "target": "html",
       "path": "/worldbook/volumes/1-world-basics/magic/",
-      "bytes": 122602,
-      "sha256": "afb06b213eff06145910b7c7aec3a016a0b48c79d27cbd07646bd5ee27c9f87e"
+      "bytes": 133242,
+      "sha256": "481c66735c1994e8a31a3127b9bad59a3f398d212857cdfe0f26f855a7237d67"
     },
     {
       "target": "pdf",

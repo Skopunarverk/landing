@@ -39,8 +39,23 @@ export interface GeneratedHtmlAudit {
   sha256: string;
 }
 
-export interface AuthoritativeContentV2 {
-  schemaVersion: 2;
+export interface DocumentOutlineItem {
+  id: string;
+  level: number;
+  text: string;
+  anchorSource: "source" | "generated";
+}
+
+export interface DocumentOutline {
+  version: "document-outline-v1";
+  namespace: string;
+  minLevel: number;
+  maxLevel: number;
+  items: DocumentOutlineItem[];
+}
+
+export interface AuthoritativeContentV3 {
+  schemaVersion: 3;
   product: string;
   canonicalPath: string;
   source: {
@@ -54,6 +69,7 @@ export interface AuthoritativeContentV2 {
   diagnostics: TypstDiagnosticSummary;
   dependencies: TypstDependencySummary;
   htmlAudit: GeneratedHtmlAudit;
+  outline: DocumentOutline;
   style: string;
   body: string;
 }

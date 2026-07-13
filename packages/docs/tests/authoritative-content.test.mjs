@@ -8,11 +8,13 @@ import {
   analyzeTypstDiagnostics,
   auditGeneratedCss,
   auditHtmlFragment,
+  decorateHtmlFragment,
   extractHtmlDocument,
   summarizeFontInputs,
   summarizeTypstDependencies,
   validateDiagnosticSummary,
   validateDependencySummary,
+  validateDocumentOutline,
 } from "../src/schema/authoritative-content.mjs";
 
 const hash = (value) => createHash("sha256").update(value).digest("hex");
@@ -33,6 +35,162 @@ test("Typst HTML is parsed structurally and records semantic counters", () => {
   assert.equal(audit.math, 1);
   assert.equal(audit.maxHeadingLevel, 1);
   assert.deepEqual(audit.errors, []);
+});
+
+test("HTML decoration derives a stable outline and preserves native MathML layout", () => {
+  const fragment = `
+    <h2>Magic</h2>
+    <h3 id="anima">Anima</h3>
+    <h4>Flow</h4>
+    <h3>Magic</h3>
+    <h4>Flow</h4>
+    <math display="block"><mfrac><mn>1</mn><mn>2</mn></mfrac></math>
+  `;
+  const decorated = decorateHtmlFragment(fragment, { namespace: "worldbook" });
+  const repeated = decorateHtmlFragment(decorated.body, { namespace: "worldbook" });
+
+  assert.equal(decorated.body, repeated.body);
+  assert.deepEqual(decorated.outline, repeated.outline);
+  assert.equal(decorated.outline.items.length, 5);
+  assert.deepEqual(decorated.outline.items.map((item) => item.anchorSource), ["generated", "source", "generated", "generated", "generated"]);
+  assert.equal(decorated.outline.items[1].id, "anima");
+  assert.notEqual(decorated.outline.items[0].id, decorated.outline.items[3].id);
+  assert.notEqual(decorated.outline.items[2].id, decorated.outline.items[4].id);
+  assert.match(decorated.body, /<div class="sk-docs-equation--block" data-sk-equation-wrapper="generated" tabindex="0" role="group" aria-label="Scrollable mathematical formula"><math display="block">/);
+  assert.doesNotMatch(decorated.body, /<math[^>]+style=/);
+  assert.deepEqual(validateDocumentOutline(decorated.outline, { namespace: "worldbook" }), []);
+});
+
+test("HTML decoration normalizes native Typst footnotes into responsive sidenotes and endnotes", () => {
+  const fragment = `
+    <h2>Probe</h2>
+    <p>正文<sup id="loc-1" role="doc-noteref"><a href="#loc-2">1</a></sup>。
+      重复引用<sup id="shared" role="doc-noteref"><a href="#loc-3">2</a></sup>，再次引用<sup role="doc-noteref"><a href="#loc-3">2</a></sup>。</p>
+    <section role="doc-endnotes"><ol style="list-style-type:none">
+      <li id="loc-2"><p><sup role="doc-backlink"><a href="#loc-1">1</a></sup>第一条脚注。</p><p id="note-detail">第二段脚注，<a href="#note-detail">返回本段</a>。</p><ul><li>列表项</li></ul></li>
+      <li id="loc-3"><sup role="doc-backlink"><a href="#shared">2</a></sup>包含 <em>富文本</em> 的脚注。</li>
+    </ol></section>
+  `;
+  const decorated = decorateHtmlFragment(fragment, {
+    namespace: "worldbook",
+    footnoteTitle: "脚注",
+    footnoteReferenceLabel: "脚注",
+    footnoteBackreferenceLabel: "返回脚注引用",
+  });
+  const repeated = decorateHtmlFragment(decorated.body, {
+    namespace: "worldbook",
+    footnoteTitle: "脚注",
+    footnoteReferenceLabel: "脚注",
+    footnoteBackreferenceLabel: "返回脚注引用",
+  });
+
+  assert.equal(decorated.body, repeated.body);
+  assert.deepEqual(decorated.outline.items.map((item) => item.text), ["Probe"]);
+  assert.match(decorated.body, /<section role="doc-endnotes" class="sk-docs-footnotes" data-sk-footnotes="normalized">/);
+  assert.match(decorated.body, /<h2 class="sk-docs-footnotes-title">脚注<\/h2>/);
+  assert.match(decorated.body, /id="worldbook--footnote-ref-2-2"/);
+  assert.match(decorated.body, /href="#worldbook--footnote-2"/);
+  assert.match(decorated.body, /href="#worldbook--sidenote-2"/);
+  assert.match(decorated.body, /id="worldbook--sidenote-2"/);
+  assert.match(decorated.body, /id="worldbook--sidenote-2" tabindex="-1"/);
+  assert.match(decorated.body, /id="worldbook--footnote-2" class="sk-docs-footnote-item" tabindex="-1"/);
+  assert.match(decorated.body, /id="worldbook--footnote-ref-2-2" tabindex="-1"/);
+  assert.match(decorated.body, /<aside class="sk-docs-sidenote" role="note" id="worldbook--sidenote-1"/);
+  assert.match(decorated.body, /<div class="sk-docs-sidenote-content"><p>第一条脚注。<\/p><p id="worldbook--sidenote-1--fragment-1">/);
+  assert.match(decorated.body, /href="#worldbook--sidenote-1--fragment-1"/);
+  assert.equal((decorated.body.match(/id="note-detail"/g) ?? []).length, 1);
+  assert.match(decorated.body, /<em>富文本<\/em>/);
+  assert.equal((decorated.body.match(/role="doc-backlink"/g) ?? []).length, 3);
+  assert.doesNotMatch(decorated.body, /href="#loc-/);
+  assert.match(decorated.body, /aria-label="返回脚注引用 2\.2"/);
+  assert.deepEqual(auditHtmlFragment(decorated.body).errors, []);
+});
+
+test("HTML decoration validates legacy footnotes and fails closed for incomplete native or normalized structures", () => {
+  const legacy = '<p>正文<span class="sk-docs-footnote-wrapper"><sup class="sk-docs-footnote-ref" id="document--footnote-ref-1" role="doc-noteref"><a href="#document--footnote-1">1</a></sup><span class="sk-docs-sidenote" id="document--sidenote-1"><span class="sk-docs-sidenote-content">旧侧注</span></span></span></p><section class="sk-docs-footnotes" role="doc-endnotes"><ol class="sk-docs-footnotes-list"><li class="sk-docs-footnote-item" id="document--footnote-1"><span class="sk-docs-footnote-content">旧尾注</span><a class="sk-docs-footnote-backref" href="#document--footnote-ref-1" role="doc-backlink">↩</a></li></ol></section>';
+  const decoratedLegacy = decorateHtmlFragment(legacy, { namespace: "document" });
+  assert.equal(decoratedLegacy.body, decorateHtmlFragment(decoratedLegacy.body, { namespace: "document" }).body);
+  assert.throws(
+    () => decorateHtmlFragment(legacy.replace("旧侧注", ""), { namespace: "document" }),
+    /must contain visible footnote content/,
+  );
+
+  const nativePair = '<p>甲<sup id="a-ref" role="doc-noteref"><a href="#a-note">1</a></sup>乙<sup id="b-ref" role="doc-noteref"><a href="#b-note">2</a></sup></p><section role="doc-endnotes"><ol><li id="a-note"><sup role="doc-backlink"><a href="#a-ref">1</a></sup>第一条说明</li><li id="b-note"><sup role="doc-backlink"><a href="#b-ref">2</a></sup>第二条说明</li></ol></section>';
+  const normalizedPair = decorateHtmlFragment(nativePair, { namespace: "worldbook" }).body;
+  assert.throws(
+    () => decorateHtmlFragment(normalizedPair.replaceAll("worldbook--footnote-ref-1-1", "worldbook--footnote-ref-renamed"), { namespace: "worldbook" }),
+    /targets the wrong note representation/,
+  );
+  assert.throws(
+    () => decorateHtmlFragment(normalizedPair.replace('href="#worldbook--sidenote-1"', 'href="#worldbook--sidenote-2"'), { namespace: "worldbook" }),
+    /targets the wrong note representation/,
+  );
+  assert.throws(
+    () => decorateHtmlFragment(normalizedPair.replaceAll("第一条说明", ""), { namespace: "worldbook" }),
+    /must contain visible footnote content/,
+  );
+  assert.throws(
+    () => decorateHtmlFragment('<section class="sk-docs-footnotes" role="doc-endnotes" data-sk-footnotes="normalized"><h2 class="sk-docs-footnotes-title">脚注</h2><ol class="sk-docs-footnote-list"></ol></section>', { namespace: "worldbook" }),
+    /must contain at least one reference and note/,
+  );
+
+  assert.throws(
+    () => decorateHtmlFragment('<p>悬空引用<sup role="doc-noteref"><a href="#missing">1</a></sup></p>', { namespace: "worldbook" }),
+    /requires a document endnotes section/,
+  );
+  assert.throws(
+    () => decorateHtmlFragment('<p>伪造引用<sup role="doc-noteref"><a href="#note">1</a></sup></p><section class="sk-docs-footnotes" role="doc-endnotes"><ol><li id="note">伪造尾注</li></ol></section>', { namespace: "worldbook" }),
+    /Legacy footnote reference is incomplete/,
+  );
+  assert.throws(
+    () => decorateHtmlFragment('<p>残缺引用<sup role="doc-noteref"><a href="#note">1</a></sup></p><section role="doc-endnotes" data-sk-footnotes="normalized"><ol><li id="note">残缺尾注</li></ol></section>', { namespace: "worldbook" }),
+    /marker requires its structural class/,
+  );
+  assert.throws(
+    () => decorateHtmlFragment('<p>错误标记<sup role="doc-noteref"><a href="#note">1</a></sup></p><section class="sk-docs-footnotes" role="doc-endnotes" data-sk-footnotes="partial"><ol><li id="note">残缺尾注</li></ol></section>', { namespace: "worldbook" }),
+    /unknown normalization marker/,
+  );
+});
+
+test("HTML decoration lifts semantic sidenotes outside containers that forbid sectioning content", () => {
+  const cases = [
+    { element: "table", content: '<table><tbody><tr><th><div><p>表头<sup id="ref" role="doc-noteref"><a href="#note">1</a></sup></p></div></th></tr></tbody></table>' },
+    { element: "dl", content: '<dl><dt><div><p>术语<sup id="ref" role="doc-noteref"><a href="#note">1</a></sup></p></div></dt><dd>定义</dd></dl>' },
+    { element: "address", content: '<address><div><p>地址<sup id="ref" role="doc-noteref"><a href="#note">1</a></sup></p></div></address>' },
+    { element: "details", content: '<details><summary>摘要<sup id="ref" role="doc-noteref"><a href="#note">1</a></sup></summary><p>详情</p></details>' },
+    { element: "fieldset", content: '<fieldset><legend>分组<sup id="ref" role="doc-noteref"><a href="#note">1</a></sup></legend></fieldset>' },
+  ];
+  const endnotes = '<section role="doc-endnotes"><ol><li id="note"><sup role="doc-backlink"><a href="#ref">1</a></sup>说明</li></ol></section>';
+
+  for (const { element, content } of cases) {
+    const body = decorateHtmlFragment(content + endnotes, { namespace: "worldbook" }).body;
+    assert.ok(body.indexOf('<aside class="sk-docs-sidenote"') < body.indexOf(`<${element}`), `sidenote must be lifted before ${element}`);
+    assert.deepEqual(auditHtmlFragment(body).errors, []);
+  }
+});
+
+test("HTML decoration fails closed for unsafe equation parents and excludes generated document tables of contents", () => {
+  assert.throws(
+    () => decorateHtmlFragment('<p><math display="block"><mi>x</mi></math></p>', { namespace: "worldbook" }),
+    /cannot be wrapped safely/,
+  );
+  assert.throws(
+    () => decorateHtmlFragment('<span class="sk-docs-equation--block"><math display="block"><mi>x</mi></math></span>', { namespace: "worldbook" }),
+    /cannot be wrapped safely/,
+  );
+  for (const parent of ["button", "summary", "meter", "output", "ruby"]) {
+    assert.throws(
+      () => decorateHtmlFragment(`<${parent}><math display="block"><mi>x</mi></math></${parent}>`, { namespace: "worldbook" }),
+      /cannot be wrapped safely/,
+    );
+  }
+
+  const decorated = decorateHtmlFragment('<nav role="doc-toc"><h2>目录</h2></nav><h2>正文</h2>', { namespace: "sevara" });
+  assert.deepEqual(decorated.outline.items.map((item) => item.text), ["正文"]);
+  assert.doesNotMatch(decorated.body, /sevara-目录/);
+
+  const ambiguous = { ...decorated.outline, items: [{ ...decorated.outline.items[0], id: "a%20b" }] };
+  assert.ok(validateDocumentOutline(ambiguous, { namespace: "sevara" }).includes("outline item id must use fragment-safe characters"));
 });
 
 test("empty figures and extended aria heading levels remain observable", () => {

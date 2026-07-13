@@ -47,4 +47,6 @@ test("functional styles protect unwrapped block MathML on narrow screens", () =>
   const css = readFileSync(join(root, "src", "styles", "functional.css"), "utf8");
   assert.match(css, /> math\[display="block"\]/);
   assert.match(css, /overflow-x: auto/);
+  assert.doesNotMatch(css, /> math\[display="block"\]\s*\{[^}]*display:\s*block\s*;/s);
+  assert.match(css, /\.sk-docs-equation--block/);
 });

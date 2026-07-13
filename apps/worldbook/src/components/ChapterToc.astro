@@ -1,0 +1,204 @@
+---
+import ChapterTocList from "./ChapterTocList.astro";
+
+interface OutlineItem {
+  id: string;
+  level: number;
+  text: string;
+}
+
+interface TocNode extends OutlineItem {
+  children: TocNode[];
+}
+
+interface Props {
+  items: OutlineItem[];
+}
+
+const { items } = Astro.props;
+const roots: TocNode[] = [];
+const stack: TocNode[] = [];
+for (const item of items) {
+  const node: TocNode = { ...item, children: [] };
+  while (stack.length > 0 && stack.at(-1)!.level >= node.level) stack.pop();
+  const parent = stack.at(-1);
+  if (parent) parent.children.push(node);
+  else roots.push(node);
+  stack.push(node);
+}
+const sectionCount = items.filter((item) => item.level === 3).length;
+const subsectionCount = items.filter((item) => item.level === 4).length;
+---
+
+<details class="chapter-toc" data-chapter-toc>
+  <summary class="chapter-toc__trigger" aria-controls="chapter-toc-panel">
+    <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18">
+      <path d="M8 6h11M8 12h11M8 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01" />
+    </svg>
+    <span>目录</span>
+  </summary>
+  <div class="chapter-toc__panel" id="chapter-toc-panel">
+    <div class="chapter-toc__heading">
+      <div>
+        <p id="chapter-toc-title">本章目录</p>
+        <span>{sectionCount} 节 · {subsectionCount} 小节</span>
+      </div>
+      <small>悬停预览 · 点击固定</small>
+    </div>
+    <nav aria-labelledby="chapter-toc-title">
+      <ChapterTocList items={roots} />
+    </nav>
+  </div>
+</details>
+
+<script>
+  const hoverPreview = window.matchMedia("(min-width: 681px) and (hover: hover) and (pointer: fine)");
+  const compactLayout = window.matchMedia("(max-width: 680px), (hover: none), (pointer: coarse)");
+
+  for (const toc of document.querySelectorAll<HTMLDetailsElement>("[data-chapter-toc]")) {
+    const trigger = toc.querySelector<HTMLElement>(".chapter-toc__trigger");
+    const links = Array.from(toc.querySelectorAll<HTMLAnchorElement>("[data-chapter-toc-link]"));
+    if (!trigger) continue;
+
+    let pinned = false;
+    let hovered = false;
+    let focused = false;
+    let suppressFocusOpen = false;
+    let closeTimer = 0;
+
+    const setOpen = (open: boolean) => {
+      toc.open = open;
+      trigger.setAttribute("aria-expanded", String(open));
+      toc.toggleAttribute("data-pinned", pinned);
+      if (open) {
+        window.requestAnimationFrame(() => {
+          toc.querySelector<HTMLAnchorElement>('[aria-current="location"]')
+            ?.scrollIntoView({ block: "nearest" });
+        });
+      }
+    };
+
+    const render = () => setOpen(pinned || hovered || focused);
+    const cancelClose = () => window.clearTimeout(closeTimer);
+
+    trigger.setAttribute("aria-expanded", "false");
+    trigger.addEventListener("click", (event) => {
+      event.preventDefault();
+      cancelClose();
+      if (pinned) {
+        pinned = false;
+        hovered = false;
+        focused = false;
+        setOpen(false);
+      } else {
+        pinned = true;
+        setOpen(true);
+      }
+    });
+
+    toc.addEventListener("pointerenter", () => {
+      if (!hoverPreview.matches) return;
+      cancelClose();
+      hovered = true;
+      render();
+    });
+
+    toc.addEventListener("pointerleave", () => {
+      if (!hoverPreview.matches) return;
+      cancelClose();
+      closeTimer = window.setTimeout(() => {
+        hovered = false;
+        render();
+      }, 300);
+    });
+
+    toc.addEventListener("focusin", () => {
+      if (suppressFocusOpen) return;
+      focused = true;
+      render();
+    });
+
+    toc.addEventListener("focusout", (event) => {
+      if (event.relatedTarget instanceof Node && toc.contains(event.relatedTarget)) return;
+      focused = false;
+      render();
+    });
+
+    toc.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      pinned = false;
+      hovered = false;
+      focused = false;
+      suppressFocusOpen = true;
+      trigger.focus({ preventScroll: true });
+      suppressFocusOpen = false;
+      setOpen(false);
+    });
+
+    document.addEventListener("pointerdown", (event) => {
+      if (!toc.open || (event.target instanceof Node && toc.contains(event.target))) return;
+      pinned = false;
+      hovered = false;
+      focused = false;
+      setOpen(false);
+    });
+
+    const fragmentId = (link: HTMLAnchorElement) => link.getAttribute("href")?.slice(1) ?? "";
+    const targetIds = new Set(links.map(fragmentId));
+    const headings = Array.from(document.querySelectorAll<HTMLElement>(".sk-docs-rendered :is(h2, h3, h4)[id]"))
+      .filter((heading) => targetIds.has(heading.id));
+
+    const setCurrent = (id: string) => {
+      for (const link of links) {
+        const current = fragmentId(link) === id;
+        if (current) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      }
+    };
+
+    for (const link of links) {
+      link.addEventListener("click", () => {
+        const target = document.getElementById(fragmentId(link));
+        const closeAfterNavigation = compactLayout.matches || !pinned;
+        if (closeAfterNavigation) {
+          pinned = false;
+          hovered = false;
+          focused = false;
+          setOpen(false);
+        }
+        window.requestAnimationFrame(() => {
+          if (!target) return;
+          target.tabIndex = -1;
+          target.focus({ preventScroll: true });
+        });
+      });
+    }
+
+    hoverPreview.addEventListener("change", () => {
+      if (hoverPreview.matches) return;
+      hovered = false;
+      render();
+    });
+
+    let scheduled = false;
+    const updateCurrent = () => {
+      scheduled = false;
+      const threshold = Math.max(96, window.innerHeight * 0.18);
+      let current = headings[0];
+      for (const heading of headings) {
+        if (heading.getBoundingClientRect().top <= threshold) current = heading;
+        else break;
+      }
+      if (current) setCurrent(current.id);
+    };
+
+    window.addEventListener("scroll", () => {
+      if (scheduled) return;
+      scheduled = true;
+      window.requestAnimationFrame(updateCurrent);
+    }, { passive: true });
+    window.addEventListener("hashchange", updateCurrent);
+    updateCurrent();
+  }
+</script>

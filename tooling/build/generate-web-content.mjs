@@ -6,6 +6,7 @@ import { execFileSync, spawnSync } from "node:child_process";
 import {
   analyzeTypstDiagnostics,
   auditHtmlFragment,
+  decorateHtmlFragment,
   extractHtmlDocument,
   publicHtmlAudit,
   summarizeFontInputs,
@@ -73,6 +74,11 @@ try {
       fontPolicy: "system-allowed",
       strictSemanticHtml: false,
       closedFonts: false,
+      outlineNamespace: "sevara",
+      equationLabel: "数学公式；可横向滚动查看完整内容",
+      footnoteTitle: "脚注",
+      footnoteReferenceLabel: "脚注",
+      footnoteBackreferenceLabel: "返回脚注引用",
     },
     {
       id: "worldbook",
@@ -91,6 +97,11 @@ try {
       fontPolicy: "repository-only",
       strictSemanticHtml: true,
       closedFonts: true,
+      outlineNamespace: "worldbook",
+      equationLabel: "数学公式；可横向滚动查看完整内容",
+      footnoteTitle: "脚注",
+      footnoteReferenceLabel: "脚注",
+      footnoteBackreferenceLabel: "返回脚注引用",
     },
   ];
 
@@ -102,7 +113,15 @@ try {
       readFile(job.output, "utf8"),
       readFile(dependenciesPath),
     ]);
-    const rendered = extractHtmlDocument(htmlDocument);
+    const extracted = extractHtmlDocument(htmlDocument);
+    const decorated = decorateHtmlFragment(extracted.body, {
+      namespace: job.outlineNamespace,
+      equationLabel: job.equationLabel,
+      footnoteTitle: job.footnoteTitle,
+      footnoteReferenceLabel: job.footnoteReferenceLabel,
+      footnoteBackreferenceLabel: job.footnoteBackreferenceLabel,
+    });
+    const rendered = { style: extracted.style, body: decorated.body };
     const diagnostics = analyzeTypstDiagnostics(stderr, job.diagnosticPolicy);
     if (diagnostics.blockedCount > 0) {
       const blocked = diagnostics.reported
@@ -124,7 +143,7 @@ try {
       policy: job.fontPolicy,
     });
     const artifact = {
-      schemaVersion: 2,
+      schemaVersion: 3,
       product: job.id,
       canonicalPath: job.canonicalPath,
       source: {
@@ -140,6 +159,7 @@ try {
       diagnostics,
       dependencies,
       htmlAudit: publicHtmlAudit(htmlAudit),
+      outline: decorated.outline,
       style: rendered.style,
       body: rendered.body,
     };

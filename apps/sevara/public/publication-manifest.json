@@ -23,8 +23,8 @@
   },
   "sourceSnapshot": {
     "path": "src/generated/authoritative-content.json",
-    "bytes": 59420,
-    "sha256": "5e66f4ef7523fe76388768fd2c387ac09fece22d88616cd0eda4b9939bcec630"
+    "bytes": 66572,
+    "sha256": "de77d486606e18700e4fb54fd98a4d8bf561dfaf2a4e99ed5e620ec25041d078"
   },
   "generator": {
     "docsPackage": "0.1.0",
@@ -59,7 +59,7 @@
       "target": "html",
       "path": "/sevara/spec/foundations/",
       "bytes": 56056,
-      "sha256": "f44042e16f41e0ee88b18202d4bee6375dbc52670625ee95079e0d72e4f3f34d"
+      "sha256": "67cfd9d364de23f9498893ea0f3104de7d95419cc28f4e7d69566544ecfd5365"
     },
     {
       "target": "pdf",

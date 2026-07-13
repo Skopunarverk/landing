@@ -40,6 +40,7 @@ const primaryChapter = chapters.find((chapter) => chapter.status === "published"
       </div>
     </header>
     <main id="content" class="main"><slot /></main>
+    <slot name="overlay" />
     <footer class="editorial-footer"><div class="page footer-row"><span><a href={publication.license.url}>{publication.license.spdx}</a> · {publication.license.copyright}</span><span class="publication-source">发布源 {publication.source.commit.slice(0, 12)} · <a href="/worldbook/publication-manifest.json">Manifest ↗</a></span></div></footer>
     <GlobalFooter />
   </body>

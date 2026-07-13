@@ -61,6 +61,12 @@ pnpm worldbook-publication:verify:pinned
 四卷目录、下载列表和许可证展示只消费该索引。生成文件不得人工编辑；内容变化应先
 进入 TheWorldBook，再通过 `pnpm publish:prepare` 重建网页、PDF 和 publication manifest。
 
+网页正文制品使用 `authoritative-content` v3。发布准备会在安全审计之前通过 parse5 从同一份
+Typst HTML 派生 h2–h4 目录、为缺少 label 的标题补确定性锚点，并为块级 MathML 增加独立
+滚动边界；已有 Typst label 始终保留。验证阶段会从正文重新推导并逐项比对目录，网站不得
+手写第二份章节数组。需要长期稳定的公开深链时，应在 TheWorldBook 的 Typst 源中补显式
+label，而不是依赖标题生成的 fallback 锚点。
+
 公开 landing 仓的 CI 会始终验证已提交制品、Manifest、站点构建与测试。若要让 CI 从两个
 私有权威仓重新拉取并执行零漂移检查，需要配置只读 Actions secret
 `SOURCE_REPO_TOKEN`，且只授予 Sevara 与 TheWorldBook 的 contents read 权限；未配置时
