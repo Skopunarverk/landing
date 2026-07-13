@@ -61,6 +61,12 @@ pnpm worldbook-publication:verify:pinned
 四卷目录、下载列表和许可证展示只消费该索引。生成文件不得人工编辑；内容变化应先
 进入 TheWorldBook，再通过 `pnpm publish:prepare` 重建网页、PDF 和 publication manifest。
 
+公开 landing 仓的 CI 会始终验证已提交制品、Manifest、站点构建与测试。若要让 CI 从两个
+私有权威仓重新拉取并执行零漂移检查，需要配置只读 Actions secret
+`SOURCE_REPO_TOKEN`，且只授予 Sevara 与 TheWorldBook 的 contents read 权限；未配置时
+工作流会在 Summary 明确标记来源重建未执行。本地或发布者环境仍必须先运行
+`pnpm publish:prepare`。
+
 ## Cloudflare 部署
 
 仓库根的 `wrangler.jsonc` 是 Cloudflare Workers Builds 使用的稳定入口，适配

@@ -34,6 +34,8 @@ jobs:
     name: Verify pinned publication
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      SOURCE_REPO_TOKEN: ${{ secrets.SOURCE_REPO_TOKEN }}
     steps:
       - name: Check out website repository
         uses: actions/checkout@v6
@@ -57,12 +59,26 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Configure private source access
+        if: ${{ env.SOURCE_REPO_TOKEN != '' }}
+        env:
+          GH_TOKEN: ${{ env.SOURCE_REPO_TOKEN }}
+        run: gh auth setup-git
+
+      - name: Report unavailable provenance rebuild
+        if: ${{ env.SOURCE_REPO_TOKEN == '' }}
+        run: |
+          echo "### Private-source provenance rebuild skipped" >> "$GITHUB_STEP_SUMMARY"
+          echo "Add a read-only SOURCE_REPO_TOKEN with access to the pinned Sevara and TheWorldBook repositories to enable clean source regeneration and drift rejection." >> "$GITHUB_STEP_SUMMARY"
+
       - name: Resolve and verify pinned authorities
+        if: ${{ env.SOURCE_REPO_TOKEN != '' }}
         run: |
           pnpm content:sync
           pnpm content:verify:pinned
 
       - name: Rebuild publication artifacts
+        if: ${{ env.SOURCE_REPO_TOKEN != '' }}
         run: |
           pnpm web-content:generate
           pnpm worldbook-publication:generate
@@ -73,12 +89,16 @@ jobs:
           pnpm manifests:validate
 
       - name: Reject generated artifact drift
+        if: ${{ env.SOURCE_REPO_TOKEN != '' }}
         run: >-
           git diff --exit-code --
           apps/sevara/src/generated
           apps/sevara/public
           apps/worldbook/src/generated
           apps/worldbook/public
+
+      - name: Verify committed publication artifacts
+        run: pnpm build
 
       - name: Run repository tests
         run: pnpm test
