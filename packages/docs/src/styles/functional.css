@@ -11,6 +11,16 @@
   overscroll-behavior-inline: contain;
 }
 
+/* Typst HTML can emit a top-level block MathML node without an adapter
+ * wrapper. Keep that valid output scrollable on narrow reading surfaces. */
+.sk-docs-rendered > math[display="block"] {
+  display: block;
+  max-inline-size: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+}
+
 .sk-docs-rendered :where(.sk-docs-equation--block math, pre, table) {
   max-inline-size: 100%;
 }

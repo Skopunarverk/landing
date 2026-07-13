@@ -88,9 +88,7 @@ export default function V2Page() {
       <div className={styles.auroraB} aria-hidden="true" />
       <div className={styles.noise} aria-hidden="true" />
 
-      <a className="fixed left-4 top-4 z-[100] -translate-y-[180%] rounded-full bg-fg px-4 py-3 text-xs font-bold text-canvas transition-transform focus:translate-y-0" href="#v2-main">跳至主要内容</a>
-
-      <SiteHeader visual="voxel" activeVersion="v2" brandHref="/v2" navItems={navItems} />
+      <SiteHeader visual="voxel" activeVersion="v2" brandHref="/v2" mainHref="#v2-main" navItems={navItems} />
 
       <main id="v2-main" className="relative z-10">
         <PageContainer as="section" width="wide" className="relative grid min-h-[calc(100svh-76px)] items-center gap-8 pb-16 pt-14 lg:grid-cols-[0.94fr_1.06fr] lg:py-12">
@@ -180,7 +178,7 @@ export default function V2Page() {
               <div className="mt-10 grid grid-cols-2 gap-2 sm:grid-cols-4">
                 {["世界基础", "历史与社会", "文化与文明", "生活与挑战"].map((volume, index) => <span className={styles.volume} key={volume}>VOLUME {index + 1}<strong>{volume}</strong></span>)}
               </div>
-              <a className={styles.panelLink} href="https://github.com/Hemifuture/TheWorldBook" target="_blank" rel="noreferrer">阅读世界设定 <span>↗</span></a>
+              <a className={styles.panelLink} href={siteConfig.links.worldBook}>阅读世界设定 <span>→</span></a>
             </article>
 
             <article className={`${styles.projectPanel} ${styles.sevaraPanel} lg:col-span-5`} data-v2-reveal>
@@ -193,7 +191,7 @@ export default function V2Page() {
               <ol className="mt-8 grid gap-2">
                 {["Surface · 玩家说出的自然表达", "Canonical · 唯一、可检查的语义", "Execution · 面向权威环境的计划"].map((layer, index) => <li className={styles.languageLayer} key={layer}><span>0{index + 1}</span>{layer}</li>)}
               </ol>
-              <a className={styles.panelLink} href="https://github.com/dyzdyz010/sevara" target="_blank" rel="noreferrer">了解 Sevara <span>↗</span></a>
+              <a className={styles.panelLink} href={siteConfig.links.sevara}>了解 Sevara <span>→</span></a>
             </article>
 
             <article className={`${styles.projectPanel} ${styles.runtimePanel} lg:col-span-12`} data-v2-reveal>
@@ -262,9 +260,16 @@ export default function V2Page() {
           />
           <div className="mt-14 grid gap-4 lg:grid-cols-3">
             {progress.map((item, index) => (
-              <a className={styles.progressCard} key={item.name} href={item.href} target="_blank" rel="noreferrer" data-v2-reveal>
+              <a
+                className={styles.progressCard}
+                key={item.name}
+                href={item.href}
+                target={item.href.startsWith("http") ? "_blank" : undefined}
+                rel={item.href.startsWith("http") ? "noreferrer" : undefined}
+                data-v2-reveal
+              >
                 <span className={styles.progressIndex}>0{index + 1}</span><StatusBadge tone="cyan" className="absolute right-6 top-5">{item.state}</StatusBadge>
-                <h3>{item.name}</h3><p>{item.detail}</p><i aria-hidden="true">↗</i>
+                <h3>{item.name}</h3><p>{item.detail}</p><i aria-hidden="true">{item.href.startsWith("http") ? "↗" : "→"}</i>
               </a>
             ))}
           </div>

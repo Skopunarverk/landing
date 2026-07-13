@@ -42,6 +42,25 @@ pnpm publish:prepare
 Typst 生成制品和发布清单。普通 `pnpm build` 不依赖系统 Typst 或本地内容仓，
 只验证已提交制品与 lock 一致，因此 Cloudflare 的干净 checkout 可以重建 Web。
 
+### WorldBook 单一事实源
+
+WorldBook 的卷名、摘要、章节与成熟度属于 TheWorldBook 内容仓，不在网站页面中
+平行维护。发布准备会从固定提交的 `publication/worldbook.json` 生成
+`apps/worldbook/src/generated/publication-index.json`；旧的固定提交尚无结构化清单时，
+只允许从同一权威仓的 `README.md` 进入显式 `legacy-readme` 兼容模式，不回退到网站
+手写内容。
+
+```bash
+pnpm worldbook-publication:generate
+pnpm worldbook-publication:verify
+pnpm worldbook-publication:verify:pinned
+```
+
+生成索引记录权威仓、完整 commit、源路径、源文件规范化 SHA-256 与生成模式；文本哈希
+统一使用 UTF-8 与 LF 换行，避免 Git 在 Windows/Linux checkout 时引入伪漂移。网站首页、
+四卷目录、下载列表和许可证展示只消费该索引。生成文件不得人工编辑；内容变化应先
+进入 TheWorldBook，再通过 `pnpm publish:prepare` 重建网页、PDF 和 publication manifest。
+
 ## Cloudflare 部署
 
 仓库根的 `wrangler.jsonc` 是 Cloudflare Workers Builds 使用的稳定入口，适配

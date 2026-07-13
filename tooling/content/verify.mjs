@@ -19,6 +19,18 @@ for (const [id, source] of Object.entries(lock.sources)) {
   }
 }
 
+const worldbookPublication = lock.sources.worldbook?.publication;
+if (!worldbookPublication || !["structured", "legacy-readme"].includes(worldbookPublication.mode)) {
+  throw new Error("worldbook publication.mode must explicitly select structured or legacy-readme");
+}
+const expectedPublicationPath = worldbookPublication.mode === "structured" ? "publication/worldbook.json" : "README.md";
+if (worldbookPublication.path !== expectedPublicationPath) {
+  throw new Error(`worldbook publication.path must be ${expectedPublicationPath} for ${worldbookPublication.mode}`);
+}
+if (!/^[a-f0-9]{64}$/.test(worldbookPublication.sha256 ?? "")) {
+  throw new Error("worldbook publication.sha256 must be a lowercase SHA-256 digest");
+}
+
 const digest = createHash("sha256").update(lockText).digest("hex");
 process.stdout.write(`sources.lock.json sha256=${digest}\n`);
 

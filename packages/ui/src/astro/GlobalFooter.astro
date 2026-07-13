@@ -3,7 +3,13 @@ import { brand } from "@skopunarverk/brand";
 ---
 <footer class="sk-footer">
   <div class="sk-container sk-footer__inner">
-    <span>{brand.name}</span>
-    <a class="sk-link" href={brand.repository}>GitHub</a>
+    <div class="sk-footer__identity">
+      <strong>{brand.displayName}</strong>
+      <span>{brand.tagline}</span>
+    </div>
+    <div class="sk-footer__meta">
+      <span>WORLD SYSTEMS · EVOLVING</span>
+      <a class="sk-link" href={brand.repository}>GitHub <span aria-hidden="true">↗</span></a>
+    </div>
   </div>
 </footer>

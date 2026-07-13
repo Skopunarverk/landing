@@ -42,3 +42,9 @@ test("Typst fixture compiles to a non-empty PDF", () => {
   typst("compile", fixture, output);
   assert.ok(statSync(output).size > 1_000);
 });
+
+test("functional styles protect unwrapped block MathML on narrow screens", () => {
+  const css = readFileSync(join(root, "src", "styles", "functional.css"), "utf8");
+  assert.match(css, /> math\[display="block"\]/);
+  assert.match(css, /overflow-x: auto/);
+});

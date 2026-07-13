@@ -28,6 +28,8 @@ test("server-renders the Sköpunarverk classic landing page", async () => {
   assert.match(html, /property="og:image" content="http:\/\/localhost:3000\/og-skopunarverk\.png"/i);
   assert.doesNotMatch(html, /Genesis Initiative|>GENESIS</i);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
+  assert.match(html, /class="site-skip-link" href="#top"/i);
+  assert.doesNotMatch(html, /href="\/worldbook\/"[^>]*target="_blank"/i);
 });
 
 test("server-renders the independent voxel narrative version", async () => {
@@ -40,6 +42,8 @@ test("server-renders the independent voxel narrative version", async () => {
   assert.match(html, /机制示例 · 设计目标/);
   assert.match(html, /全面工程融合尚未开始/);
   assert.match(html, /体素叙事版/);
+  assert.match(html, /class="site-skip-link" href="#v2-main"/i);
+  assert.doesNotMatch(html, /href="\/worldbook\/"[^>]*target="_blank"/i);
   assert.match(html, /property="og:image" content="http:\/\/localhost:3000\/og-skopunarverk\.png"/i);
   assert.doesNotMatch(html, /Genesis Initiative|>GENESIS</i);
 });
@@ -90,6 +94,8 @@ test("keeps the design system, shared components, and motion contracts explicit"
   assert.match(theme, /\[data-visual="voxel"\]/);
   assert.match(siteConfig, /from "@skopunarverk\/brand"/);
   assert.match(packageJson, /"@skopunarverk\/brand": "workspace:\*"/);
+  assert.match(packageJson, /"@skopunarverk\/ui": "workspace:\*"/);
+  assert.match(layout, /import "@skopunarverk\/ui\/styles\.css"/);
   assert.match(siteHeader, /SiteHeader/);
   assert.match(actionLink, /ActionLink/);
   assert.match(sectionHeading, /SectionHeading/);

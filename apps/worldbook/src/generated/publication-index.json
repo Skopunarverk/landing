@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "product": "worldbook",
+  "title": "The World Book",
+  "tagline": "从自然法则出发，写下一个世界的历史、文明与日常生活。",
+  "summary": "一部持续生长的四卷世界设定集，覆盖世界基础、历史与社会演变、文化与文明，以及社会生活与挑战。",
+  "license": {
+    "spdx": "CC-BY-NC-SA-4.0",
+    "name": "知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议",
+    "url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "copyright": "Copyright © 2025 Hemifuture"
+  },
+  "volumes": [
+    {
+      "id": "world-basics",
+      "number": 1,
+      "title": "世界基础",
+      "englishTitle": "World Basics",
+      "summary": "介绍世界的基础设定，包括天文、地理、魔法体系与物种生态。",
+      "status": "in-progress",
+      "entry": "src/Volume1_WorldBasics/Volume1_WorldBasics.typ",
+      "chapters": [
+        {
+          "id": "magic-system",
+          "number": 1,
+          "title": "魔法体系",
+          "summary": "介绍魔法体系的运作原理，包括基本概念、基本原理、分类与构建方式。",
+          "status": "published",
+          "entry": "src/Volume1_WorldBasics/chapters/Chapter1_MagicSystem/chapter1.typ",
+          "webPath": "/worldbook/volumes/1-world-basics/magic/"
+        },
+        {
+          "id": "astronomy-and-geography",
+          "number": 2,
+          "title": "天文及地理",
+          "summary": "规划描述宇宙、世界与地理空间。",
+          "status": "stub",
+          "entry": "src/Volume1_WorldBasics/chapters/Chapter2_AstronomyAndGeography/chapter2.typ",
+          "webPath": null
+        },
+        {
+          "id": "species",
+          "number": 3,
+          "title": "物种",
+          "summary": "规划描述世界中的物种与生态关系。",
+          "status": "stub",
+          "entry": "src/Volume1_WorldBasics/chapters/Chapter3_Species/chapter3.typ",
+          "webPath": null
+        }
+      ]
+    },
+    {
+      "id": "history-and-social-evolution",
+      "number": 2,
+      "title": "历史与社会演变",
+      "englishTitle": "History and Social Evolution",
+      "summary": "规划介绍文明发展历程，包括历史年代记、国家与政治、组织与结社，以及魔法在社会演变中的作用。",
+      "status": "planned",
+      "entry": "src/Volume2_HistoryAndSocialEvolution/Volume2_HistoryAndSocialEvolution.typ",
+      "chapters": [
+        {
+          "id": "historical-chronicle",
+          "number": 1,
+          "title": "历史年代记",
+          "summary": "计划收录世界历史年代记。",
+          "status": "planned",
+          "entry": null,
+          "webPath": null
+        },
+        {
+          "id": "states-and-politics",
+          "number": 2,
+          "title": "国家与政治",
+          "summary": "计划描述国家与政治体系。",
+          "status": "planned",
+          "entry": null,
+          "webPath": null
+        },
+        {
+          "id": "organizations-and-associations",
+          "number": 3,
+          "title": "组织、结社",
+          "summary": "计划描述组织、结社及其社会关系。",
+          "status": "planned",
+          "entry": null,
+          "webPath": null
+        },
+        {
+          "id": "magic-in-social-evolution",
+          "number": 4,
+          "title": "魔法在社会演变中的作用",
+          "summary": "计划描述魔法对社会演变的长期影响。",
+          "status": "planned",
+          "entry": null,
+          "webPath": null
+        }
+      ]
+    },
+    {
+      "id": "culture-and-civilization",
+      "number": 3,
+      "title": "文化与文明",
+      "englishTitle": "Culture and Civilization",
+      "summary": "规划介绍世界的文化与文明，包括宗教信仰、风俗与艺术、建筑与地标、物品与科技。",
+      "status": "planned",
+      "entry": "src/Volume3_CultureAndCivilization/Volume3_CultureAndCivilization.typ",
+      "chapters": [
+        {
+          "id": "religions-and-beliefs",
+          "number": 1,
+          "title": "宗教信仰",
+          "summary": "计划描述宗教与信仰体系。",
+          "status": "planned",
+          "entry": null,
+          "webPath": null
+        },
+        {
+          "id": "customs-and-arts",
+          "number": 2,
+          "title": "风俗与艺术",
+          "summary": "计划描述社会风俗与艺术形式。",
+          "status": "planned",
+          "entry": null,
+          "webPath": null
+        },
+        {
+          "id": "architecture-and-landmarks",
+          "number": 3,
+          "title": "建筑与地标",
+          "summary": "计划描述建筑传统与重要地标。",
+          "status": "planned",
+          "entry": null,
+          "webPath": null
+        },
+        {
+          "id": "objects-and-technology",
+          "number": 4,
+          "title": "物品与科技",
+          "summary": "计划描述代表性物品与技术体系。",
+          "status": "planned",
+          "entry": null,
+          "webPath": null
+        }
+      ]
+    },
+    {
+      "id": "social-life-and-challenges",
+      "number": 4,
+      "title": "社会生活与挑战",
+      "englishTitle": "Social Life and Challenges",
+      "summary": "规划介绍世界的社会生活与挑战，包括经济与贸易、法律与社会、疾病与异变、著名人物。",
+      "status": "planned",
+      "entry": "src/Volume4_SocialLifeAndChallenge/Volume4_SocialLifeAndChallenge.typ",
+      "chapters": [
+        {
+          "id": "economy-and-trade",
+          "number": 1,
+          "title": "经济与贸易",
+          "summary": "计划描述经济体系与贸易活动。",
+          "status": "planned",
+          "entry": null,
+          "webPath": null
+        },
+        {
+          "id": "law-and-society",
+          "number": 2,
+          "title": "法律与社会",
+          "summary": "计划描述法律制度与社会秩序。",
+          "status": "planned",
+          "entry": null,
+          "webPath": null
+        },
+        {
+          "id": "diseases-and-mutations",
+          "number": 3,
+          "title": "疾病与异变",
+          "summary": "计划描述疾病、异变及其社会影响。",
+          "status": "planned",
+          "entry": null,
+          "webPath": null
+        },
+        {
+          "id": "notable-figures",
+          "number": 4,
+          "title": "著名人物",
+          "summary": "计划记录影响世界进程的重要人物。",
+          "status": "planned",
+          "entry": null,
+          "webPath": null
+        }
+      ]
+    }
+  ],
+  "source": {
+    "repository": "https://github.com/Hemifuture/TheWorldBook.git",
+    "commit": "d1b8a24aabb2300391ae3e348b5ec8ff6d6666ef",
+    "path": "publication/worldbook.json",
+    "sha256": "7e4c9d9bc1b2f0dca252f7806ed6088d64d668a2740f2267e59699a35c359a21",
+    "mode": "structured"
+  }
+}

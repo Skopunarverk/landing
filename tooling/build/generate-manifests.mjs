@@ -18,7 +18,6 @@ async function artifact(relativePath, url, target) {
   };
 }
 
-const generatedAt = new Date().toISOString();
 const sevaraHtml = await artifact(
   "apps/sevara/dist/sevara/spec/foundations/index.html",
   "/sevara/spec/foundations/",
@@ -43,7 +42,7 @@ const sevara = {
     canonicalPath: "/sevara/",
   },
   sourceCommit: lock.sources.sevara.commit,
-  generatedAt,
+  generatedAt: lock.sources.sevara.committedAt,
   targets: ["html", "pdf"],
   source: lock.sources.sevara,
   sourceSnapshot: {
@@ -80,28 +79,39 @@ const worldbookSourceSnapshot = await artifact(
   "src/generated/authoritative-content.json",
   "html",
 );
+const worldbookPublicationIndex = JSON.parse(
+  await readFile(path.join(root, "apps/worldbook/src/generated/publication-index.json"), "utf8"),
+);
+const worldbookPublicationSnapshot = await artifact(
+  "apps/worldbook/src/generated/publication-index.json",
+  "src/generated/publication-index.json",
+  "html",
+);
 
-const volumeFiles = [
-  [1, "world-basics", "世界基础", "Volume1_WorldBasics.pdf"],
-  [2, "history-and-social-evolution", "历史与社会演变", "Volume2_HistoryAndSocialEvolution.pdf"],
-  [3, "culture-and-civilization", "文化与文明", "Volume3_CultureAndCivilization.pdf"],
-  [4, "social-life-and-challenges", "社会生活与挑战", "Volume4_SocialLifeAndChallenge.pdf"],
-];
+const volumeFiles = worldbookPublicationIndex.volumes.map((volume) => [
+  volume.number,
+  volume.id,
+  volume.title,
+  volume.englishTitle,
+  volume.summary,
+  volume.status,
+  volume.entry.split("/").at(-1).replace(/\.typ$/, ".pdf"),
+]);
 
 const worldbook = {
   schemaVersion: 1,
   product: "worldbook",
-  title: "The World Book",
+  title: worldbookPublicationIndex.title,
   basePath: "/worldbook/",
   document: {
     id: "worldbook",
     namespace: "worldbook",
-    title: "The World Book",
+    title: worldbookPublicationIndex.title,
     lang: "zh-CN",
     canonicalPath: "/worldbook/",
   },
   sourceCommit: lock.sources.worldbook.commit,
-  generatedAt,
+  generatedAt: lock.sources.worldbook.committedAt,
   targets: ["html", "pdf"],
   source: lock.sources.worldbook,
   sourceSnapshot: {
@@ -109,13 +119,25 @@ const worldbook = {
     bytes: worldbookSourceSnapshot.bytes,
     sha256: worldbookSourceSnapshot.sha256,
   },
+  publicationIndex: {
+    path: worldbookPublicationSnapshot.url,
+    bytes: worldbookPublicationSnapshot.bytes,
+    sha256: worldbookPublicationSnapshot.sha256,
+    source: worldbookPublicationIndex.source,
+  },
   generator: { docsPackage: docsPackage.version, typst: "0.15.0" },
-  authority: "src",
-  license: "CC BY-NC-SA 4.0",
-  volumes: await Promise.all(volumeFiles.map(async ([number, slug, title, file]) => ({
+  authority: {
+    content: "src",
+    publication: worldbookPublicationIndex.source.path,
+  },
+  license: worldbookPublicationIndex.license,
+  volumes: await Promise.all(volumeFiles.map(async ([number, slug, title, englishTitle, summary, status, file]) => ({
     number,
     slug,
     title,
+    englishTitle,
+    summary,
+    status,
     artifact: await artifact(`apps/worldbook/public/downloads/${file}`, `/worldbook/downloads/${file}`, "pdf"),
   }))),
 };

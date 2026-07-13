@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
+import "@skopunarverk/brand/tokens.css";
+import "@skopunarverk/ui/styles.css";
 import "./globals.css";
 import { siteConfig } from "./lib/site";
 

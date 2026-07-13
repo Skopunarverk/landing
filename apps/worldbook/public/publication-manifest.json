@@ -10,71 +10,108 @@
     "lang": "zh-CN",
     "canonicalPath": "/worldbook/"
   },
-  "sourceCommit": "5f2b6ab97839988363c8be399ba10829dca7d3a3",
-  "generatedAt": "2026-07-11T05:48:21.895Z",
+  "sourceCommit": "d1b8a24aabb2300391ae3e348b5ec8ff6d6666ef",
+  "generatedAt": "2026-07-13T11:24:40+08:00",
   "targets": [
     "html",
     "pdf"
   ],
   "source": {
     "repository": "https://github.com/Hemifuture/TheWorldBook.git",
-    "commit": "5f2b6ab97839988363c8be399ba10829dca7d3a3",
-    "committedAt": "2026-05-27T16:31:44+08:00"
+    "commit": "d1b8a24aabb2300391ae3e348b5ec8ff6d6666ef",
+    "committedAt": "2026-07-13T11:24:40+08:00",
+    "publication": {
+      "mode": "structured",
+      "path": "publication/worldbook.json",
+      "sha256": "7e4c9d9bc1b2f0dca252f7806ed6088d64d668a2740f2267e59699a35c359a21"
+    }
   },
   "sourceSnapshot": {
     "path": "src/generated/authoritative-content.json",
-    "bytes": 84461,
-    "sha256": "b574a7c60c8c67ad1f2f7558d3f9a12489cf26a0c53a8eb63953775b6e6168bf"
+    "bytes": 84462,
+    "sha256": "875593639aeb2f3d38a73b45fe04bc2a94afdfab6341d4573d2090739e154d8d"
+  },
+  "publicationIndex": {
+    "path": "src/generated/publication-index.json",
+    "bytes": 6978,
+    "sha256": "141ef0b2d58556481ee27a653dc1e493b7cd4119d5faf891ac528d60d3db188d",
+    "source": {
+      "repository": "https://github.com/Hemifuture/TheWorldBook.git",
+      "commit": "d1b8a24aabb2300391ae3e348b5ec8ff6d6666ef",
+      "path": "publication/worldbook.json",
+      "sha256": "7e4c9d9bc1b2f0dca252f7806ed6088d64d668a2740f2267e59699a35c359a21",
+      "mode": "structured"
+    }
   },
   "generator": {
     "docsPackage": "0.1.0",
     "typst": "0.15.0"
   },
-  "authority": "src",
-  "license": "CC BY-NC-SA 4.0",
+  "authority": {
+    "content": "src",
+    "publication": "publication/worldbook.json"
+  },
+  "license": {
+    "spdx": "CC-BY-NC-SA-4.0",
+    "name": "知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议",
+    "url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "copyright": "Copyright © 2025 Hemifuture"
+  },
   "volumes": [
     {
       "number": 1,
       "slug": "world-basics",
       "title": "世界基础",
+      "englishTitle": "World Basics",
+      "summary": "介绍世界的基础设定，包括天文、地理、魔法体系与物种生态。",
+      "status": "in-progress",
       "artifact": {
         "target": "pdf",
         "url": "/worldbook/downloads/Volume1_WorldBasics.pdf",
-        "bytes": 747148,
-        "sha256": "4431577b8de0f6419f25df198d3640a80ae4ad1e65c7dc050e9783ce3c0ca2c5"
+        "bytes": 747138,
+        "sha256": "bd36eafc6ec3c6ae4a65fef0c65fc7d34d2895f9b923813d1bc9a19c433dd74a"
       }
     },
     {
       "number": 2,
       "slug": "history-and-social-evolution",
       "title": "历史与社会演变",
+      "englishTitle": "History and Social Evolution",
+      "summary": "规划介绍文明发展历程，包括历史年代记、国家与政治、组织与结社，以及魔法在社会演变中的作用。",
+      "status": "planned",
       "artifact": {
         "target": "pdf",
         "url": "/worldbook/downloads/Volume2_HistoryAndSocialEvolution.pdf",
-        "bytes": 303249,
-        "sha256": "a148e32ee4db27a70609d34a5344374a61e6c0eaafede67d7cdb2f6430e8788b"
+        "bytes": 303239,
+        "sha256": "f74ce3b46cc2f87ee024b5abe1a538486466439860139c79c6152b6d124d1e35"
       }
     },
     {
       "number": 3,
       "slug": "culture-and-civilization",
       "title": "文化与文明",
+      "englishTitle": "Culture and Civilization",
+      "summary": "规划介绍世界的文化与文明，包括宗教信仰、风俗与艺术、建筑与地标、物品与科技。",
+      "status": "planned",
       "artifact": {
         "target": "pdf",
         "url": "/worldbook/downloads/Volume3_CultureAndCivilization.pdf",
-        "bytes": 302661,
-        "sha256": "24355e6502bdbb8684c3d0d46b46bdc7ea8690f1cefcf0ba9b6a02c2b22d6001"
+        "bytes": 302651,
+        "sha256": "6e0a3790a68df4e34851d3d424b8740d5aa6383e1685270efdb7941a944bbb99"
       }
     },
     {
       "number": 4,
       "slug": "social-life-and-challenges",
       "title": "社会生活与挑战",
+      "englishTitle": "Social Life and Challenges",
+      "summary": "规划介绍世界的社会生活与挑战，包括经济与贸易、法律与社会、疾病与异变、著名人物。",
+      "status": "planned",
       "artifact": {
         "target": "pdf",
         "url": "/worldbook/downloads/Volume4_SocialLifeAndChallenge.pdf",
-        "bytes": 303232,
-        "sha256": "330a88e705976574f00809f9386bc4ac9bb251739beb8a155fb241ce0082f3c1"
+        "bytes": 303222,
+        "sha256": "2ab8b9fcbeff207fb47277dd29447e3c3e4069672b1c010dd332421313398445"
       }
     }
   ],
@@ -82,32 +119,32 @@
     {
       "target": "html",
       "path": "/worldbook/volumes/1-world-basics/magic/",
-      "bytes": 85699,
-      "sha256": "d5f17ca478be304257df1047fa70b83ba6969c0021f939484455855cb709191b"
+      "bytes": 86446,
+      "sha256": "8baa0d1fc6999ba94e6f1d82f27bf1f4ce43ec13ddea419d680fd3b07a42f29a"
     },
     {
       "target": "pdf",
       "path": "/worldbook/downloads/Volume1_WorldBasics.pdf",
-      "bytes": 747148,
-      "sha256": "4431577b8de0f6419f25df198d3640a80ae4ad1e65c7dc050e9783ce3c0ca2c5"
+      "bytes": 747138,
+      "sha256": "bd36eafc6ec3c6ae4a65fef0c65fc7d34d2895f9b923813d1bc9a19c433dd74a"
     },
     {
       "target": "pdf",
       "path": "/worldbook/downloads/Volume2_HistoryAndSocialEvolution.pdf",
-      "bytes": 303249,
-      "sha256": "a148e32ee4db27a70609d34a5344374a61e6c0eaafede67d7cdb2f6430e8788b"
+      "bytes": 303239,
+      "sha256": "f74ce3b46cc2f87ee024b5abe1a538486466439860139c79c6152b6d124d1e35"
     },
     {
       "target": "pdf",
       "path": "/worldbook/downloads/Volume3_CultureAndCivilization.pdf",
-      "bytes": 302661,
-      "sha256": "24355e6502bdbb8684c3d0d46b46bdc7ea8690f1cefcf0ba9b6a02c2b22d6001"
+      "bytes": 302651,
+      "sha256": "6e0a3790a68df4e34851d3d424b8740d5aa6383e1685270efdb7941a944bbb99"
     },
     {
       "target": "pdf",
       "path": "/worldbook/downloads/Volume4_SocialLifeAndChallenge.pdf",
-      "bytes": 303232,
-      "sha256": "330a88e705976574f00809f9386bc4ac9bb251739beb8a155fb241ce0082f3c1"
+      "bytes": 303222,
+      "sha256": "2ab8b9fcbeff207fb47277dd29447e3c3e4069672b1c010dd332421313398445"
     }
   ]
 }

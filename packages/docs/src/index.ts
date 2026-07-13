@@ -14,3 +14,23 @@ export {
   assertPublicationMeta,
   validatePublicationMeta,
 } from "./schema/publication";
+
+export type {
+  WorldbookChapter,
+  WorldbookChapterStatus,
+  WorldbookLicense,
+  WorldbookPublication,
+  WorldbookPublicationIndex,
+  WorldbookPublicationMode,
+  WorldbookVolume,
+  WorldbookVolumeStatus,
+} from "./schema/worldbook-publication";
+
+export {
+  assertWorldbookPublicationSource,
+  generateWorldbookPublicationIndex,
+  loadWorldbookPublicationIndex,
+  parseLegacyWorldbookReadme,
+  validateWorldbookPublication,
+  validateWorldbookPublicationSource,
+} from "./schema/worldbook-publication";

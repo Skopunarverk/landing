@@ -2,10 +2,17 @@
 import BaseLayout from "../../../../layouts/BaseLayout.astro";
 import RenderedTypst from "@skopunarverk/docs/astro/RenderedTypst.astro";
 import content from "../../../../generated/authoritative-content.json";
+import publication from "../../../../generated/publication-index.json";
+
+const volume = publication.volumes.find((candidate) => candidate.chapters.some((chapter) => chapter.entry === content.source.path));
+const chapter = volume?.chapters.find((candidate) => candidate.entry === content.source.path);
+if (!volume || !chapter) throw new Error(`Publication index does not describe ${content.source.path}`);
+const pdfFile = volume.entry.split("/").at(-1)?.replace(/\.typ$/, ".pdf");
 ---
-<BaseLayout title="什么是魔法？— The World Book" description="The World Book 第一卷：魔法体系导读。">
-  <div class="page reader"><aside class="folio-nav"><strong>I · 世界基础</strong><p>本章由 TheWorldBook 权威 Typst 源直接生成；第一卷 PDF 包含同一章源文件。</p><a href="/worldbook/downloads/Volume1_WorldBasics.pdf">下载同源第一卷 PDF</a><a href="/worldbook/volumes/">返回四卷目录</a></aside>
-    <article class="prose"><p class="kicker">Volume I · Chapter 1 · {content.source.commit.slice(0, 12)}</p>
+<BaseLayout title={`${chapter.title} — ${publication.title}`} description={chapter.summary}>
+  <div class="page reader"><aside class="folio-nav"><strong>{volume.number} · {volume.title}</strong><p>本章由固定 TheWorldBook 提交中的权威 Typst 源生成。</p>{pdfFile ? <a href={`/worldbook/downloads/${pdfFile}`}>下载同源本卷 PDF</a> : null}<a href="/worldbook/volumes/">返回四卷目录</a></aside>
+    <article class="prose"><p class="kicker">Volume {volume.number} · Chapter {chapter.number} · {content.source.commit.slice(0, 12)}</p>
+      <h1 class="sk-visually-hidden">第{volume.number}卷 · {chapter.title}</h1>
       <style is:global set:html={content.style}></style>
       <RenderedTypst variant="article" lang="zh-CN">
         <Fragment set:html={content.body} />

@@ -15,6 +15,7 @@ const products = {
     manifest: "apps/worldbook/public/publication-manifest.json",
     html: "apps/worldbook/dist/worldbook/volumes/1-world-basics/magic/index.html",
     sourceSnapshot: "apps/worldbook/src/generated/authoritative-content.json",
+    publicationIndex: "apps/worldbook/src/generated/publication-index.json",
     publicRoot: "apps/worldbook/public",
     basePath: "/worldbook",
   },
@@ -26,6 +27,16 @@ for (const [id, config] of Object.entries(products)) {
   const snapshotDigest = createHash("sha256").update(snapshotBytes).digest("hex");
   if (manifest.sourceSnapshot?.bytes !== snapshotBytes.length || manifest.sourceSnapshot?.sha256 !== snapshotDigest) {
     throw new Error(`${id}: sourceSnapshot differs from generated authoritative content`);
+  }
+  if (config.publicationIndex) {
+    const publicationBytes = await readFile(path.join(workspaceRoot, config.publicationIndex));
+    const publicationDigest = createHash("sha256").update(publicationBytes).digest("hex");
+    if (
+      manifest.publicationIndex?.bytes !== publicationBytes.length
+      || manifest.publicationIndex?.sha256 !== publicationDigest
+    ) {
+      throw new Error(`${id}: publicationIndex differs from generated authority metadata`);
+    }
   }
   for (const artifact of manifest.artifacts) {
     const relative = artifact.target === "html"

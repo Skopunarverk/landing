@@ -1,13 +1,23 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import publication from "../../generated/publication-index.json";
+
+const volumeStatus: Record<string, string> = { "in-progress": "持续编写", planned: "规划中" };
+const chapterStatus: Record<string, string> = { published: "可在线阅读", stub: "内容骨架", planned: "规划中" };
 ---
-<BaseLayout title="四卷目录 — The World Book">
-  <div class="page reader"><aside class="folio-nav"><strong>四卷目录</strong><a href="#volume-1">I · 世界基础</a><a href="#volume-2">II · 历史与社会演变</a><a href="#volume-3">III · 文化与文明</a><a href="#volume-4">IV · 社会生活与挑战</a></aside>
-    <article class="prose"><p class="kicker">Contents · Volumes I–IV</p><h1>从世界规则，到生活本身</h1><p>设定集以四卷组织材料。四卷不是彼此隔离的百科分类，而是从自然基础逐渐进入社会经验的阅读路径。</p>
-      <h2 id="volume-1">第一卷 · 世界基础</h2><p>介绍天文、地理、魔法体系与物种生态，为后续历史和文明提供客观边界。</p><div class="chapter-list"><article><b>第一章 · 魔法体系</b><span>起源、本质、分类、构造与吸引律。</span></article><article><b>第二章 · 天文地理</b><span>宇宙、世界与空间尺度。</span></article><article><b>第三章 · 物种</b><span>生命谱系与生态关系。</span></article></div><a class="button" href="/worldbook/volumes/1-world-basics/magic/">阅读魔法体系</a>
-      <h2 id="volume-2">第二卷 · 历史与社会演变</h2><p>由年代记进入国家政治、组织结社，以及魔法对社会演变的长期作用。</p>
-      <h2 id="volume-3">第三卷 · 文化与文明</h2><p>讨论宗教信仰、风俗艺术、建筑地标，以及物品和科技。</p>
-      <h2 id="volume-4">第四卷 · 社会生活与挑战</h2><p>落到经济贸易、法律社会、疾病异变和著名人物等现实生活层面。</p>
+<BaseLayout title={`卷册目录 — ${publication.title}`} description={publication.summary}>
+  <div class="page reader"><aside class="folio-nav"><strong>卷册目录</strong>{publication.volumes.map((volume) => <a href={`#volume-${volume.number}`}>{String(volume.number).padStart(2, "0")} · {volume.title}</a>)}</aside>
+    <article class="prose"><p class="kicker">Contents · {publication.volumes.length} volumes</p><h1>{publication.tagline}</h1><p>{publication.summary}</p>
+      {publication.volumes.map((volume) => <section class="volume-section" data-status={volume.status}>
+        <div class="volume-heading"><h2 id={`volume-${volume.number}`}>第 {volume.number} 卷 · {volume.title}</h2><span class="content-status">{volumeStatus[volume.status]}</span></div>
+        <p>{volume.summary}</p>
+        <div class="chapter-list">{volume.chapters.map((chapter) => <article data-status={chapter.status}>
+          <small>{chapterStatus[chapter.status]}</small>
+          <b>第 {chapter.number} 章 · {chapter.title}</b>
+          <span>{chapter.summary}</span>
+          {chapter.status === "published" && chapter.webPath ? <a class="chapter-link" href={chapter.webPath}>阅读本章 →</a> : null}
+        </article>)}</div>
+      </section>)}
     </article>
   </div>
 </BaseLayout>

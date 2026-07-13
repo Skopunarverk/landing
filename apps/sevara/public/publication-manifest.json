@@ -11,7 +11,7 @@
     "canonicalPath": "/sevara/"
   },
   "sourceCommit": "9625a20b863acd5122e2d10f06950dabb418b07f",
-  "generatedAt": "2026-07-11T05:48:21.895Z",
+  "generatedAt": "2026-07-10T19:46:17+08:00",
   "targets": [
     "html",
     "pdf"
@@ -23,8 +23,8 @@
   },
   "sourceSnapshot": {
     "path": "src/generated/authoritative-content.json",
-    "bytes": 54467,
-    "sha256": "ed2b71599eb699e5fc39d544f0e0e3b887476f4fd424ffba4eb651449710d3ca"
+    "bytes": 54468,
+    "sha256": "99f839fe58495f72784680a471bac2bcedf052b62c7c2dd2381ce8f998bff334"
   },
   "generator": {
     "docsPackage": "0.1.0",
@@ -44,34 +44,34 @@
     "overview": {
       "target": "pdf",
       "url": "/sevara/downloads/sevara-overview.pdf",
-      "bytes": 638490,
-      "sha256": "c79de6cccb7ef444d1338ee5dccda12b873fe2df7a006c6311267caa5e376c8c"
+      "bytes": 638473,
+      "sha256": "d2334685b4ade6966f826f10239955681e8e3bac16e559f6e79de10515cb36d1"
     },
     "companion": {
       "target": "pdf",
       "url": "/sevara/downloads/sevara-language-companion.pdf",
-      "bytes": 638490,
-      "sha256": "c79de6cccb7ef444d1338ee5dccda12b873fe2df7a006c6311267caa5e376c8c"
+      "bytes": 638473,
+      "sha256": "d2334685b4ade6966f826f10239955681e8e3bac16e559f6e79de10515cb36d1"
     }
   },
   "artifacts": [
     {
       "target": "html",
       "path": "/sevara/spec/foundations/",
-      "bytes": 55076,
-      "sha256": "b5601ae3ef2aff6c4efeffffe54e654f9d896d8f576b1368297f771530d1aa3d"
+      "bytes": 55371,
+      "sha256": "886085cd4725ab28069748e632cd403cd000387cc1d94e27596782a4a1804bc6"
     },
     {
       "target": "pdf",
       "path": "/sevara/downloads/sevara-overview.pdf",
-      "bytes": 638490,
-      "sha256": "c79de6cccb7ef444d1338ee5dccda12b873fe2df7a006c6311267caa5e376c8c"
+      "bytes": 638473,
+      "sha256": "d2334685b4ade6966f826f10239955681e8e3bac16e559f6e79de10515cb36d1"
     },
     {
       "target": "pdf",
       "path": "/sevara/downloads/sevara-language-companion.pdf",
-      "bytes": 638490,
-      "sha256": "c79de6cccb7ef444d1338ee5dccda12b873fe2df7a006c6311267caa5e376c8c"
+      "bytes": 638473,
+      "sha256": "d2334685b4ade6966f826f10239955681e8e3bac16e559f6e79de10515cb36d1"
     }
   ]
 }

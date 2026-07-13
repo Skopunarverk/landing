@@ -7,7 +7,6 @@ export const chromeStyles: Record<SiteVisual, {
   desktopVersion: string;
   github: string;
   mobilePanel: string;
-  brandSubtitle: string;
 }> = {
   classic: {
     header: "relative z-50 border-b border-line bg-canvas/70 backdrop-blur-xl",
@@ -16,7 +15,6 @@ export const chromeStyles: Record<SiteVisual, {
     desktopVersion: "hidden md:flex",
     github: "hidden xl:inline-flex",
     mobilePanel: "w-56 bg-surface-strong/95",
-    brandSubtitle: "WORLD SYSTEMS",
   },
   voxel: {
     header: "sticky top-0 z-50 border-b border-line bg-canvas/75 backdrop-blur-2xl",
@@ -25,6 +23,5 @@ export const chromeStyles: Record<SiteVisual, {
     desktopVersion: "ml-auto hidden md:flex xl:ml-4",
     github: "hidden sm:inline-flex",
     mobilePanel: "w-64 bg-surface-strong/95",
-    brandSubtitle: "一个世界，从设定走向运行",
   },
 };

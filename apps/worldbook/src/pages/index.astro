@@ -1,21 +1,25 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-const volumes = [
-  ["I", "世界基础", "World Basics", "宇宙、地理、魔法体系与物种生态。", "/worldbook/volumes/1-world-basics/magic/"],
-  ["II", "历史与社会演变", "History & Society", "从年代记到国家、组织与社会演变。", "/worldbook/volumes/"],
-  ["III", "文化与文明", "Culture & Civilization", "宗教、艺术、建筑、物品与科技。", "/worldbook/volumes/"],
-  ["IV", "社会生活与挑战", "Life & Challenges", "经济、法律、疾病、异变与著名人物。", "/worldbook/volumes/"],
-];
+import publication from "../generated/publication-index.json";
+
+const volumeStatus: Record<string, string> = { "in-progress": "持续编写", planned: "规划中" };
 ---
 <BaseLayout>
   <section class="page cover">
-    <div class="cover-copy"><div><p class="kicker">A living compendium · Four volumes</p><h1>为一个世界写下它的<em>自然与文明</em></h1></div><div class="cover-intro"><p>The World Book 从客观规律出发，沿着历史、文化与日常生活展开一套持续生长的世界设定。</p><a class="link-arrow" href="/worldbook/volumes/">打开四卷目录 <span>→</span></a></div></div>
+    <div class="cover-copy"><div><p class="kicker">A living compendium · {publication.volumes.length} volumes</p><h1>为一个世界写下它的<em>自然与文明</em></h1></div><div class="cover-intro"><p>{publication.summary}</p><a class="link-arrow" href="/worldbook/volumes/">打开四卷目录 <span>→</span></a></div></div>
     <div class="cover-map" role="img" aria-label="抽象世界地图"><div class="cover-lines"></div></div>
   </section>
   <section class="page volumes">
-    <div class="section-head"><div><p class="kicker">The collection</p><h2>四卷世界书</h2></div><p>每一卷沿着不同尺度观察同一个世界：先建立物理与生命的基础，再进入历史、文明，最后回到人们真实生活的挑战。</p></div>
+    <div class="section-head"><div><p class="kicker">The collection</p><h2>共 {publication.volumes.length} 卷世界书</h2></div><p>{publication.tagline}</p></div>
     <div class="volume-grid">
-      {volumes.map(([roman, title, en, text, href]) => <a class="volume-card" href={href}><span class="roman">{roman}</span><div><small>{en}</small><h3>{title}</h3><p>{text}</p></div></a>)}
+      {publication.volumes.map((volume) => {
+        const publishedChapter = volume.chapters.find((chapter) => chapter.status === "published" && chapter.webPath);
+        const href = publishedChapter?.webPath ?? `/worldbook/volumes/#volume-${volume.number}`;
+        return <a class="volume-card" href={href} data-status={volume.status}>
+          <div class="volume-meta"><span class="roman">{String(volume.number).padStart(2, "0")}</span><span class="content-status">{volumeStatus[volume.status]}</span></div>
+          <div><small>{volume.englishTitle}</small><h3>{volume.title}</h3><p>{volume.summary}</p></div>
+        </a>;
+      })}
     </div>
   </section>
 </BaseLayout>

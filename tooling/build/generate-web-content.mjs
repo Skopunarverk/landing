@@ -36,7 +36,6 @@ try {
   const [{ root: sevaraRoot, source: sevaraSource }, { root: worldbookRoot, source: worldbookSource }] =
     await Promise.all([resolveSevaraSource(), resolveWorldbookSource()]);
   const version = typstVersion();
-  const generatedAt = new Date().toISOString();
   const jobs = [
     {
       id: "sevara",
@@ -82,7 +81,9 @@ try {
         entrySha256: sha256(sourceBytes),
       },
       generator: { typst: version, docsContract: "@skopunarverk/docs@0.1.0" },
-      generatedAt,
+      // Keep generated artifacts reproducible for a pinned authority commit.
+      // The lock's commit timestamp is stable; wall-clock build time is not.
+      generatedAt: job.source.committedAt,
       style: rendered.style,
       body: rendered.body,
     };

@@ -5,5 +5,8 @@ const { href = "/" } = Astro.props;
 ---
 <a class="sk-brand" href={href} aria-label={`返回 ${brand.name} 首页`}>
   <span class="sk-brand__mark" aria-hidden="true"></span>
-  <span class="sk-brand__name">{brand.displayName}</span>
+  <span class="sk-brand__copy">
+    <span class="sk-brand__name">{brand.displayName}</span>
+    <span class="sk-brand__tagline">WORLD SYSTEMS</span>
+  </span>
 </a>

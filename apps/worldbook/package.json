@@ -8,7 +8,7 @@
     "build": "astro build && node scripts/finalize-dist.mjs",
     "preview": "astro preview",
     "check": "astro check",
-    "test": "astro check",
+    "test": "astro check && node --test tests/*.test.mjs",
     "pdf:build": "node scripts/build-pdf.mjs",
     "cloudflare:check": "pnpm run build && wrangler deploy --dry-run --config wrangler.jsonc"
   },

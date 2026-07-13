@@ -5,11 +5,16 @@ import "@skopunarverk/docs/styles/functional.css";
 import "@skopunarverk/ui/styles.css";
 import GlobalFooter from "@skopunarverk/ui/astro/GlobalFooter";
 import GlobalHeader from "@skopunarverk/ui/astro/GlobalHeader";
+import publication from "../generated/publication-index.json";
 
 interface Props { title?: string; description?: string; }
-const { title = "The World Book — Sköpunarverk", description = "一个关于世界规则、历史、文明与生活的开放设定集。" } = Astro.props;
+interface PublicationChapter { title: string; status: string; webPath: string | null; }
+const { title = `${publication.title} — Sköpunarverk`, description = publication.summary } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const path = Astro.url.pathname;
+const volumes = publication.volumes as unknown as Array<{ chapters: PublicationChapter[] }>;
+const chapters = volumes.flatMap((volume) => volume.chapters);
+const primaryChapter = chapters.find((chapter) => chapter.status === "published" && chapter.webPath);
 ---
 <!doctype html>
 <html lang="zh-CN">
@@ -19,22 +24,23 @@ const path = Astro.url.pathname;
     <link rel="icon" type="image/svg+xml" href="/worldbook/favicon.svg" /><link rel="canonical" href={canonical} />
     <title>{title}</title>
   </head>
-  <body>
-    <a class="skip-link" href="#content">跳到正文</a>
+  <body class="worldbook-site">
+    <a class="sk-skip-link" href="#content">跳到正文</a>
     <GlobalHeader active="worldbook" />
-    <header class="masthead">
-      <div class="page masthead-top"><span>Sköpunarverk · Archive of imagined worlds</span><a href="/">返回主站 ↗</a></div>
+    <div class="worldbook-atmosphere" aria-hidden="true"></div>
+    <header class="masthead" aria-label="The World Book 站点导航">
+      <div class="page masthead-top"><span>01 · Canon / Archive of imagined worlds</span><a href="/">Sköpunarverk constellation ↗</a></div>
       <div class="page title-row">
-        <a class="wordmark" href="/worldbook/"><small>The</small><strong>World Book</strong></a>
+        <a class="wordmark" href="/worldbook/" aria-label={`${publication.title} 首页`}><small>The</small><strong>World Book</strong><span>{publication.tagline}</span></a>
         <nav class="book-nav" aria-label="主要导航">
-          <a href="/worldbook/volumes/" aria-current={path === "/worldbook/volumes/" ? "page" : undefined}>四卷</a>
-          <a href="/worldbook/volumes/1-world-basics/magic/" aria-current={path.includes("/magic/") ? "page" : undefined}>魔法体系</a>
+          <a href="/worldbook/volumes/" aria-current={path === "/worldbook/volumes/" ? "page" : undefined}>卷册</a>
+          {primaryChapter?.webPath ? <a href={primaryChapter.webPath} aria-current={path === primaryChapter.webPath ? "page" : undefined}>{primaryChapter.title}</a> : null}
           <a href="/worldbook/downloads/" aria-current={path.includes("/downloads/") ? "page" : undefined}>PDF</a>
         </nav>
       </div>
     </header>
     <main id="content" class="main"><slot /></main>
-    <footer class="footer"><div class="page footer-row"><span>世界观内容采用 CC BY-NC-SA 4.0 · Copyright © Hemifuture</span><a href="/worldbook/publication-manifest.json">Publication manifest</a></div></footer>
+    <footer class="editorial-footer"><div class="page footer-row"><span><a href={publication.license.url}>{publication.license.spdx}</a> · {publication.license.copyright}</span><span class="publication-source">发布源 {publication.source.commit.slice(0, 12)} · <a href="/worldbook/publication-manifest.json">Manifest ↗</a></span></div></footer>
     <GlobalFooter />
   </body>
 </html>

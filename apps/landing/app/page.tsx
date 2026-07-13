@@ -70,7 +70,7 @@ export default function Home() {
       <div className="nebula nebula-violet pointer-events-none fixed" aria-hidden="true" />
       <div className="nebula nebula-cyan pointer-events-none fixed" aria-hidden="true" />
 
-      <SiteHeader visual="classic" activeVersion="v1" brandHref="#top" navItems={navItems} />
+      <SiteHeader visual="classic" activeVersion="v1" brandHref="#top" mainHref="#top" navItems={navItems} />
 
       <main id="top" className="relative z-10">
         <PageContainer as="section" width="wide" className="grid min-h-[calc(100vh-5rem)] items-center gap-16 py-20 lg:grid-cols-[0.92fr_1.08fr] lg:py-16">
@@ -92,8 +92,8 @@ export default function Home() {
                 variant="secondary"
                 shape="rounded"
                 href={siteConfig.links.worldBook}
-                target="_blank"
-                endIcon="↗"
+                endIcon="→"
+                iconMotion="none"
               >
                 阅读世界设定
               </ActionLink>
@@ -176,8 +176,13 @@ export default function Home() {
                 <div className="mt-7 flex flex-wrap gap-2">
                   {project.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}
                 </div>
-                <a className="card-link focus-ring" href={project.href} target="_blank" rel="noreferrer">
-                  查看项目 <span aria-hidden="true">↗</span>
+                <a
+                  className="card-link focus-ring"
+                  href={project.href}
+                  target={project.href.startsWith("http") ? "_blank" : undefined}
+                  rel={project.href.startsWith("http") ? "noreferrer" : undefined}
+                >
+                  查看项目 <span aria-hidden="true">{project.href.startsWith("http") ? "↗" : "→"}</span>
                 </a>
               </article>
             ))}

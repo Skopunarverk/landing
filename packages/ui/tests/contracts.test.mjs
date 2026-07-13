@@ -12,6 +12,14 @@ test("React and Astro adapters share the global chrome contract", async () => {
   }
 });
 
+test("React and Astro brand adapters expose the same two-line identity", async () => {
+  const [react, astro] = await Promise.all([read("../src/react/BrandMark.tsx"), read("../src/astro/BrandMark.astro")]);
+  for (const contract of ["sk-brand__copy", "sk-brand__name", "sk-brand__tagline", "WORLD SYSTEMS"]) {
+    assert.ok(react.includes(contract), `React brand mark lacks ${contract}`);
+    assert.ok(astro.includes(contract), `Astro brand mark lacks ${contract}`);
+  }
+});
+
 test("shared UI excludes product-specific document and motion components", async () => {
   const manifest = await read("../package.json");
   for (const forbidden of ["Sidebar", "TableOfContents", "VoxelWorld", "MotionField", "RenderedTypst"]) {
