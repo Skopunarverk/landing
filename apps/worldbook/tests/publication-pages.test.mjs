@@ -1,8 +1,42 @@
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
+import { access, readFile, readdir } from "node:fs/promises";
+import path from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
 const read = (path) => readFile(new URL(path, import.meta.url), "utf8");
+const worldbookRoot = fileURLToPath(new URL("..", import.meta.url));
+
+test("WorldBook production HTML keeps executable scripts compatible with self-only CSP", async () => {
+  const astroCli = path.join(worldbookRoot, "node_modules", "astro", "bin", "astro.mjs");
+  execFileSync(process.execPath, [astroCli, "build"], {
+    cwd: worldbookRoot,
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+
+  const distRoot = path.join(worldbookRoot, "dist", "worldbook");
+  const htmlFiles = (await readdir(distRoot, { recursive: true }))
+    .filter((entry) => entry.endsWith(".html"));
+  const violations = [];
+
+  for (const relativePath of htmlFiles) {
+    const html = await readFile(path.join(distRoot, relativePath), "utf8");
+    for (const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
+      const attributes = match[1];
+      const type = attributes.match(/\btype=["']([^"']+)["']/i)?.[1].toLowerCase();
+      const executable = !type || ["module", "text/javascript", "application/javascript"].includes(type);
+      if (executable && !/\bsrc\s*=/i.test(attributes)) violations.push(relativePath);
+    }
+  }
+
+  assert.deepEqual(
+    [...new Set(violations)].sort(),
+    [],
+    "strict script-src 'self' requires every executable production script to use src",
+  );
+});
 
 test("WorldBook pages consume the generated authority index", async () => {
   const dynamicPageExists = await access(new URL("../src/pages/volumes/[...chapter].astro", import.meta.url))
