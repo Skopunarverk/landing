@@ -46,3 +46,4 @@ work/
 .sites-dev.*.log
 .sites-preview.*.log
 .reference-server.*.log
+/.omx/

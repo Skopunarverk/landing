@@ -8,12 +8,12 @@
     },
     "worldbook": {
       "repository": "https://github.com/Hemifuture/TheWorldBook.git",
-      "commit": "bfc5e73fb5b1dac1cefb4107c34ad709292c3ae8",
-      "committedAt": "2026-07-13T12:43:30+08:00",
+      "commit": "eafa2f8b23995cbf14fea638440482176002a287",
+      "committedAt": "2026-07-14T11:02:34+08:00",
       "publication": {
         "mode": "structured",
         "path": "publication/worldbook.json",
-        "sha256": "7e4c9d9bc1b2f0dca252f7806ed6088d64d668a2740f2267e59699a35c359a21"
+        "sha256": "45becbb5b6ca5809ec4d7ea1140aba155d6fe536be9b3729c1ecb18052cd54fb"
       }
     }
   }

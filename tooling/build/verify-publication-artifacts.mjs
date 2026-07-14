@@ -1,25 +1,26 @@
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { workspaceRoot } from "../content/source-integrity.mjs";
+import { readSourcesLock, workspaceRoot } from "../content/source-integrity.mjs";
+import { assertWorldbookManifestCoverage } from "./publication-artifact-contract.mjs";
 
 const products = {
   sevara: {
     manifest: "apps/sevara/public/publication-manifest.json",
-    html: "apps/sevara/dist/sevara/spec/foundations/index.html",
     sourceSnapshot: "apps/sevara/src/generated/authoritative-content.json",
     publicRoot: "apps/sevara/public",
     basePath: "/sevara",
   },
   worldbook: {
     manifest: "apps/worldbook/public/publication-manifest.json",
-    html: "apps/worldbook/dist/worldbook/volumes/1-world-basics/magic/index.html",
     sourceSnapshot: "apps/worldbook/src/generated/authoritative-content.json",
     publicationIndex: "apps/worldbook/src/generated/publication-index.json",
     publicRoot: "apps/worldbook/public",
     basePath: "/worldbook",
   },
 };
+
+const lock = await readSourcesLock();
 
 for (const [id, config] of Object.entries(products)) {
   const manifest = JSON.parse(await readFile(path.join(workspaceRoot, config.manifest), "utf8"));
@@ -37,10 +38,18 @@ for (const [id, config] of Object.entries(products)) {
     ) {
       throw new Error(`${id}: publicationIndex differs from generated authority metadata`);
     }
+    if (id === "worldbook") {
+      assertWorldbookManifestCoverage({
+        manifest,
+        bundle: JSON.parse(snapshotBytes.toString("utf8")),
+        publicationIndex: JSON.parse(publicationBytes.toString("utf8")),
+        lockSource: lock.sources.worldbook,
+      });
+    }
   }
   for (const artifact of manifest.artifacts) {
     const relative = artifact.target === "html"
-      ? config.html
+      ? `apps/${id}/dist${artifact.path}index.html`
       : path.join(config.publicRoot, artifact.path.slice(config.basePath.length).replace(/^\//, ""));
     const bytes = await readFile(path.join(workspaceRoot, relative));
     const digest = createHash("sha256").update(bytes).digest("hex");

@@ -32,20 +32,28 @@ if (
   throw new Error("WorldBook authoritative HTML provenance differs from the pinned publication source");
 }
 
-const webChapter = index.volumes
-  .flatMap((volume) => volume.chapters)
-  .find((chapter) => chapter.entry === authoritativeContent.source.path);
-if (!webChapter) {
-  throw new Error(`No publication chapter matches generated HTML source ${authoritativeContent.source.path}`);
+if (authoritativeContent.schemaVersion !== 1 || !Array.isArray(authoritativeContent.documents)) {
+  throw new Error("WorldBook authoritative HTML must be a schemaVersion 1 document bundle");
 }
+const publishedChapters = index.volumes
+  .flatMap((volume) => volume.chapters)
+  .filter((chapter) => chapter.status === "published" && chapter.entry && chapter.webPath);
 if (index.source.mode === "legacy-readme") {
-  webChapter.status = "published";
-  webChapter.webPath = authoritativeContent.canonicalPath;
-} else if (
-  webChapter.status !== "published"
-  || webChapter.webPath !== authoritativeContent.canonicalPath
-) {
-  throw new Error("Structured publication metadata disagrees with the generated WorldBook HTML route");
+  throw new Error("Multi-chapter WorldBook HTML publication requires structured publication metadata");
+}
+if (authoritativeContent.documents.length !== publishedChapters.length) {
+  throw new Error("Generated WorldBook HTML and structured publication metadata are not one-to-one");
+}
+for (const chapter of publishedChapters) {
+  const document = authoritativeContent.documents.find((candidate) => candidate.source?.path === chapter.entry);
+  if (!document || document.canonicalPath !== chapter.webPath) {
+    throw new Error(`Structured publication metadata disagrees with generated HTML for ${chapter.entry}`);
+  }
+}
+for (const document of authoritativeContent.documents) {
+  if (!publishedChapters.some((chapter) => chapter.entry === document.source?.path)) {
+    throw new Error(`Generated HTML source is not a published chapter: ${document.source?.path}`);
+  }
 }
 
 const serialized = `${JSON.stringify(index, null, 2)}\n`;

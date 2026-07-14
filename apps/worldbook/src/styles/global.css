@@ -122,9 +122,29 @@ a { color: inherit; }
 .prose p { max-width: 70ch; }
 .prose > .sk-docs-rendered > p:first-of-type { font-size: 1.08rem; }
 .prose > .sk-docs-rendered > p:first-of-type::first-letter { float: left; padding: .08em .08em 0 0; color: var(--wine); font: 600 4.3rem/.76 var(--serif); }
+.prose .worldbook-chapter-lede { --status: var(--wine); display: block; margin: 0 0 3rem; padding: clamp(1.2rem, 4vw, 2rem); border: 1px solid color-mix(in srgb, var(--status) 52%, var(--line)); border-top: 4px solid var(--status); border-radius: .55rem; background: linear-gradient(135deg, color-mix(in srgb, var(--paper-bright) 94%, var(--status)), var(--paper-bright)); box-shadow: 0 16px 40px rgba(72,47,36,.08); }
+.prose .worldbook-chapter-lede--canon { --status: #235f63; --status-wash: #e3f0ec; }
+.prose .worldbook-chapter-lede--derived { --status: #345b8c; --status-wash: #e8eef7; }
+.prose .worldbook-chapter-lede--proposal { --status: #8a5a22; --status-wash: #f6ead7; }
+.prose .worldbook-chapter-lede--unknown { --status: #6d526f; --status-wash: #eee6ef; }
+.prose .worldbook-chapter-lede :where(p, ul):last-child { margin-bottom: 0; }
+.prose .worldbook-callout { --status: var(--wine); --status-wash: var(--paper-bright); display: block; margin: 1.7rem 0; padding: 1rem 1.15rem 1rem 1.3rem; border: 1px solid color-mix(in srgb, var(--status) 28%, var(--line)); border-left: 4px solid var(--status); border-radius: .35rem; background: color-mix(in srgb, var(--status-wash) 76%, var(--paper-bright)); }
+.prose .worldbook-callout--canon { --status: #235f63; --status-wash: #e3f0ec; }
+.prose .worldbook-callout--derived { --status: #345b8c; --status-wash: #e8eef7; }
+.prose .worldbook-callout--proposal { --status: #8a5a22; --status-wash: #f6ead7; }
+.prose .worldbook-callout--unknown { --status: #6d526f; --status-wash: #eee6ef; }
+.prose .worldbook-callout :where(p, ul):last-child { margin-bottom: 0; }
 .figure, .prose .sk-docs-rendered figure { margin: 2.5rem 0; padding: clamp(1rem, 4vw, 2rem); border-block: 1px solid var(--line); text-align: center; }
-.prose .worldbook-visual-island { display: grid; max-inline-size: 100%; place-items: center; overflow-x: auto; border-radius: .35rem; background: color-mix(in srgb, var(--paper-bright) 74%, transparent); }
+.prose .sk-docs-rendered figure:has(table) { text-align: left; }
+.prose .worldbook-table-region { max-inline-size: 100%; overflow-x: auto; border-radius: .25rem; scrollbar-color: color-mix(in srgb, var(--wine) 45%, transparent) transparent; }
+.prose .worldbook-table-region:focus-visible { outline: 3px solid color-mix(in srgb, var(--wine) 48%, white); outline-offset: 3px; }
+.prose .sk-docs-rendered table { width: 100%; min-width: 38rem; border-collapse: collapse; color: var(--ink); background: var(--paper-bright); font: .82rem/1.55 var(--sans); }
+.prose .sk-docs-rendered :is(th, td) { padding: .72rem .8rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.prose .sk-docs-rendered th { color: var(--paper-bright); background: var(--wine); font-weight: 750; }
+.prose .sk-docs-rendered tbody tr:nth-child(even) { background: color-mix(in srgb, var(--paper) 70%, white); }
+.prose .worldbook-visual-island { display: grid; max-inline-size: 100%; margin: 2rem 0; padding: clamp(.8rem, 3vw, 1.4rem); place-items: stretch; overflow-x: auto; border: 1px solid color-mix(in srgb, var(--line) 72%, transparent); border-radius: .45rem; background: color-mix(in srgb, var(--paper-bright) 74%, transparent); scrollbar-color: color-mix(in srgb, var(--wine) 45%, transparent) transparent; }
 .prose .worldbook-visual-island > :where(img, svg) { display: block; max-inline-size: 100%; block-size: auto; }
+.prose .worldbook-visual-island > svg { width: min(100%, 52rem) !important; min-width: 36rem; height: auto !important; margin-inline: auto; }
 .prose .sk-docs-rendered figcaption { margin-top: 1rem; color: var(--muted); font: .7rem/1.5 var(--sans); letter-spacing: .02em; }
 .prose .sk-docs-rendered :is(h2, h3, h4, h5, h6)[id] { scroll-margin-block-start: 2rem; }
 .prose .sk-docs-rendered math { color: var(--ink); font-size: 1.02em; }
@@ -187,6 +207,9 @@ a { color: inherit; }
   .volume-heading { align-items: flex-start; flex-direction: column; }
   .reader { grid-template-columns: 1fr; padding: 2.5rem 1.1rem 3.5rem; border-radius: 1rem; }
   .reader--article { padding-top: 1.35rem; }
+  .prose .worldbook-chapter-lede { margin-bottom: 2.2rem; padding: 1.1rem; }
+  .prose .worldbook-callout { padding-inline: 1rem .9rem; }
+  .prose .sk-docs-rendered table { min-width: 34rem; }
   .folio-nav { position: static; max-block-size: none; overflow: visible; padding-right: 0; }
   .chapter-meta { align-items: stretch; flex-direction: column; gap: 1rem; margin-bottom: 2.8rem; }
   .chapter-meta__actions { justify-content: flex-start; }

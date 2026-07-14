@@ -73,3 +73,14 @@ export interface AuthoritativeContentV3 {
   style: string;
   body: string;
 }
+
+export interface WorldbookAuthoritativeContentBundleV1 {
+  schemaVersion: 1;
+  product: "worldbook";
+  source: {
+    repository: string;
+    commit: string;
+  };
+  generatedAt: string;
+  documents: AuthoritativeContentV3[];
+}
