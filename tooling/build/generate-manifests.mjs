@@ -1,19 +1,21 @@
 import { createHash } from "node:crypto";
-import { mkdir, readFile, stat, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { canonicalPublicationText } from "./publication-artifact-contract.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const lock = JSON.parse(await readFile(path.join(root, "sources.lock.json"), "utf8"));
 const docsPackage = JSON.parse(await readFile(path.join(root, "packages/docs/package.json"), "utf8"));
 
-async function artifact(relativePath, url, target) {
+async function artifact(relativePath, url, target, { canonicalText = false } = {}) {
   const absolutePath = path.join(root, relativePath);
-  const bytes = await readFile(absolutePath);
+  const fileBytes = await readFile(absolutePath);
+  const bytes = canonicalText ? canonicalPublicationText(fileBytes) : fileBytes;
   return {
     target,
     url,
-    bytes: (await stat(absolutePath)).size,
+    bytes: bytes.length,
     sha256: createHash("sha256").update(bytes).digest("hex"),
   };
 }
@@ -27,6 +29,7 @@ const sevaraSourceSnapshot = await artifact(
   "apps/sevara/src/generated/authoritative-content.json",
   "src/generated/authoritative-content.json",
   "html",
+  { canonicalText: true },
 );
 
 const sevara = {
@@ -73,6 +76,7 @@ const worldbookSourceSnapshot = await artifact(
   "apps/worldbook/src/generated/authoritative-content.json",
   "src/generated/authoritative-content.json",
   "html",
+  { canonicalText: true },
 );
 const worldbookPublicationIndex = JSON.parse(
   await readFile(path.join(root, "apps/worldbook/src/generated/publication-index.json"), "utf8"),
@@ -89,6 +93,7 @@ const worldbookPublicationSnapshot = await artifact(
   "apps/worldbook/src/generated/publication-index.json",
   "src/generated/publication-index.json",
   "html",
+  { canonicalText: true },
 );
 
 const volumeFiles = worldbookPublicationIndex.volumes.map((volume) => [

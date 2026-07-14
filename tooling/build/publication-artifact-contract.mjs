@@ -12,6 +12,11 @@ function uniqueSorted(values, label) {
   return [...unique].sort();
 }
 
+export function canonicalPublicationText(value) {
+  const bytes = Buffer.isBuffer(value) ? value : Buffer.from(value);
+  return Buffer.from(bytes.toString("utf8").replaceAll("\r\n", "\n"), "utf8");
+}
+
 export function assertWorldbookManifestCoverage({ manifest, bundle, publicationIndex, lockSource }) {
   assertEqual(manifest.product, "worldbook", "manifest product");
   assertEqual(bundle.product, "worldbook", "authoritative content product");

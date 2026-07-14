@@ -119,38 +119,38 @@
     {
       "target": "html",
       "path": "/worldbook/volumes/1-world-basics/magic/",
-      "bytes": 135582,
-      "sha256": "c87ac1dfce4d9deef30a7e272df9be1c6ee9c2bb601eb6e94cf2f32955531e98"
+      "bytes": 133455,
+      "sha256": "49cb13b259b8cf460f49f745f0231afafde61c88fb878d516a7789a792a0be91"
     },
     {
       "target": "html",
       "path": "/worldbook/volumes/1-world-basics/geography/",
-      "bytes": 170704,
-      "sha256": "a0ddebf2c0e13ee596e43875a6f7a423fa3b03cd16949626c86522e398708b2c"
+      "bytes": 168577,
+      "sha256": "c1de37504049bf098977855f0ce0bc37918efa80838172aea66d4085ff2c1b74"
     },
     {
       "target": "html",
       "path": "/worldbook/volumes/1-world-basics/observable-laws/",
-      "bytes": 261408,
-      "sha256": "08165ccdc90aed0460462aa721e6b052c210d6514aa94a768205233c1f3d9848"
+      "bytes": 259281,
+      "sha256": "e8747b3a3818b3127a861ee1c582b0032288f3b7585cb6c28538f2cf46ae412d"
     },
     {
       "target": "html",
       "path": "/worldbook/volumes/2-history-and-social-evolution/magic-and-society/",
-      "bytes": 246173,
-      "sha256": "80cc1bfa9c1cb1f0e172615fd231b83d26f5f1a4f391ca0f1dd13761d8218d63"
+      "bytes": 244046,
+      "sha256": "09817bb8ebae0cfaad10976b823928f3510aa3639d7c87e39140bc28892db9ae"
     },
     {
       "target": "html",
       "path": "/worldbook/volumes/3-culture-and-civilization/religion-and-ritual/",
-      "bytes": 190055,
-      "sha256": "2ce1172c8a64d7efe45d8df448a7b9a43898bf6f7f99295083f3382dac00ef3c"
+      "bytes": 187928,
+      "sha256": "c82d8c52c16e527c2ec46af0d42941948da069fda0657cd0302eac4af33b668c"
     },
     {
       "target": "html",
       "path": "/worldbook/volumes/4-social-life-and-challenges/law-and-society/",
-      "bytes": 252211,
-      "sha256": "338e31d5efba676863a7820a3bdd8266656d87c6105388c1d004204b66ff29a6"
+      "bytes": 250084,
+      "sha256": "937ec03e5fe1381a1767a052ccd40a247264354a3415674cf9da1bd86db02c7b"
     },
     {
       "target": "pdf",
