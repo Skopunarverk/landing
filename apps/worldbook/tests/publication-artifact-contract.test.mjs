@@ -5,7 +5,10 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
 
-import { assertWorldbookManifestCoverage } from "../../../tooling/build/publication-artifact-contract.mjs";
+import {
+  assertWorldbookManifestCoverage,
+  canonicalPublicationText,
+} from "../../../tooling/build/publication-artifact-contract.mjs";
 import { assertPinnedCheckout } from "../../../tooling/content/source-integrity.mjs";
 
 const lockSource = {
@@ -51,6 +54,12 @@ function fixture() {
     publicationIndex,
   };
 }
+
+test("publication snapshot bytes are stable across LF and CRLF checkouts", () => {
+  const lf = Buffer.from("{\n  \"schemaVersion\": 1\n}\n", "utf8");
+  const crlf = Buffer.from(lf.toString("utf8").replaceAll("\n", "\r\n"), "utf8");
+  assert.deepEqual(canonicalPublicationText(crlf), lf);
+});
 
 test("WorldBook manifest HTML paths are a bijection with bundled documents", () => {
   const { manifest, bundle, publicationIndex } = fixture();

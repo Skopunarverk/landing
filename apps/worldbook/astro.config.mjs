@@ -9,4 +9,9 @@ export default defineConfig({
   build: {
     format: "directory",
   },
+  vite: {
+    build: {
+      assetsInlineLimit: 0,
+    },
+  },
 });

@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { readSourcesLock, workspaceRoot } from "../content/source-integrity.mjs";
-import { assertWorldbookManifestCoverage } from "./publication-artifact-contract.mjs";
+import { assertWorldbookManifestCoverage, canonicalPublicationText } from "./publication-artifact-contract.mjs";
 
 const products = {
   sevara: {
@@ -24,13 +24,15 @@ const lock = await readSourcesLock();
 
 for (const [id, config] of Object.entries(products)) {
   const manifest = JSON.parse(await readFile(path.join(workspaceRoot, config.manifest), "utf8"));
-  const snapshotBytes = await readFile(path.join(workspaceRoot, config.sourceSnapshot));
+  const snapshotFileBytes = await readFile(path.join(workspaceRoot, config.sourceSnapshot));
+  const snapshotBytes = canonicalPublicationText(snapshotFileBytes);
   const snapshotDigest = createHash("sha256").update(snapshotBytes).digest("hex");
   if (manifest.sourceSnapshot?.bytes !== snapshotBytes.length || manifest.sourceSnapshot?.sha256 !== snapshotDigest) {
     throw new Error(`${id}: sourceSnapshot differs from generated authoritative content`);
   }
   if (config.publicationIndex) {
-    const publicationBytes = await readFile(path.join(workspaceRoot, config.publicationIndex));
+    const publicationFileBytes = await readFile(path.join(workspaceRoot, config.publicationIndex));
+    const publicationBytes = canonicalPublicationText(publicationFileBytes);
     const publicationDigest = createHash("sha256").update(publicationBytes).digest("hex");
     if (
       manifest.publicationIndex?.bytes !== publicationBytes.length
