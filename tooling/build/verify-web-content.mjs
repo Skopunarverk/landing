@@ -12,13 +12,8 @@ import {
 import { readSourcesLock, workspaceRoot } from "../content/source-integrity.mjs";
 
 const lock = await readSourcesLock();
-const artifacts = [
-  ["sevara", "apps/sevara/src/generated/authoritative-content.json", "/sevara/spec/foundations/", "docs/sevara/complete_asset/current.typ"],
-  ["worldbook", "apps/worldbook/src/generated/authoritative-content.json", "/worldbook/volumes/1-world-basics/magic/", "src/Volume1_WorldBasics/chapters/Chapter1_MagicSystem/chapter1.typ"],
-];
 
-for (const [id, relativePath, canonicalPath, sourcePath] of artifacts) {
-  const value = JSON.parse(await readFile(path.join(workspaceRoot, relativePath), "utf8"));
+function validateArtifact(value, { id, canonicalPath, sourcePath, namespace, committedAt }) {
   const errors = [];
   if (value.schemaVersion !== 3) errors.push("schemaVersion must be 3");
   if (value.product !== id) errors.push(`product must be ${id}`);
@@ -29,7 +24,7 @@ for (const [id, relativePath, canonicalPath, sourcePath] of artifacts) {
   if (!/^[a-f0-9]{64}$/.test(value.source?.entrySha256 ?? "")) errors.push("entrySha256 is invalid");
   if (typeof value.body !== "string" || value.body.length < 1000) errors.push("rendered body is missing or unexpectedly small");
   if (Number.isNaN(Date.parse(value.generatedAt))) errors.push("generatedAt is invalid");
-  if (value.generatedAt !== lock.sources[id].committedAt) errors.push("generatedAt differs from sources.lock.json");
+  if (value.generatedAt !== committedAt) errors.push("generatedAt differs from sources.lock.json");
   errors.push(...auditGeneratedCss(value.style));
   errors.push(...validateDependencySummary(value.dependencies, {
     fontPolicy: id === "worldbook" ? "repository-only" : "system-allowed",
@@ -45,13 +40,13 @@ for (const [id, relativePath, canonicalPath, sourcePath] of artifacts) {
 
   if (typeof value.body === "string") {
     const decorated = decorateHtmlFragment(value.body, {
-      namespace: id,
+      namespace,
       equationLabel: "数学公式；可横向滚动查看完整内容",
       footnoteTitle: "脚注",
       footnoteReferenceLabel: "脚注",
       footnoteBackreferenceLabel: "返回脚注引用",
     });
-    errors.push(...validateDocumentOutline(value.outline, { namespace: id }));
+    errors.push(...validateDocumentOutline(value.outline, { namespace }));
     if (decorated.body !== value.body) errors.push("rendered body is not normalized with heading anchors and equation wrappers");
     if (JSON.stringify(decorated.outline) !== JSON.stringify(value.outline)) errors.push("outline does not match rendered body");
     const audited = auditHtmlFragment(value.body);
@@ -63,6 +58,66 @@ for (const [id, relativePath, canonicalPath, sourcePath] of artifacts) {
     if (id === "worldbook" && audited.imagesWithoutAlt > 0) errors.push("WorldBook rendered body contains images without alt text");
     if (id === "worldbook" && audited.maxHeadingLevel > 6) errors.push("WorldBook rendered body exceeds heading level 6");
   }
-  if (errors.length) throw new Error(`${relativePath}:\n- ${errors.join("\n- ")}`);
-  process.stdout.write(`${id}: generated content matches ${value.source.commit}\n`);
+  return errors;
 }
+
+const sevaraPath = "apps/sevara/src/generated/authoritative-content.json";
+const sevara = JSON.parse(await readFile(path.join(workspaceRoot, sevaraPath), "utf8"));
+const sevaraErrors = validateArtifact(sevara, {
+  id: "sevara",
+  canonicalPath: "/sevara/spec/foundations/",
+  sourcePath: "docs/sevara/complete_asset/current.typ",
+  namespace: "sevara",
+  committedAt: lock.sources.sevara.committedAt,
+});
+if (sevaraErrors.length) throw new Error(`${sevaraPath}:\n- ${sevaraErrors.join("\n- ")}`);
+process.stdout.write(`sevara: generated content matches ${sevara.source.commit}\n`);
+
+const worldbookPath = "apps/worldbook/src/generated/authoritative-content.json";
+const publicationPath = "apps/worldbook/src/generated/publication-index.json";
+const [bundle, publication] = await Promise.all([
+  readFile(path.join(workspaceRoot, worldbookPath), "utf8").then(JSON.parse),
+  readFile(path.join(workspaceRoot, publicationPath), "utf8").then(JSON.parse),
+]);
+const bundleErrors = [];
+if (bundle.schemaVersion !== 1) bundleErrors.push("schemaVersion must be 1");
+if (bundle.product !== "worldbook") bundleErrors.push("product must be worldbook");
+if (bundle.source?.repository !== lock.sources.worldbook.repository) bundleErrors.push("source repository differs from sources.lock.json");
+if (bundle.source?.commit !== lock.sources.worldbook.commit) bundleErrors.push("source commit differs from sources.lock.json");
+if (bundle.generatedAt !== lock.sources.worldbook.committedAt) bundleErrors.push("generatedAt differs from sources.lock.json");
+if (!Array.isArray(bundle.documents)) bundleErrors.push("documents must be an array");
+
+const published = publication.volumes.flatMap((volume) =>
+  volume.chapters
+    .filter((chapter) => chapter.status === "published" && chapter.entry && chapter.webPath)
+    .map((chapter) => ({ volume, chapter })),
+);
+const documents = Array.isArray(bundle.documents) ? bundle.documents : [];
+const sourcePaths = documents.map((document) => document.source?.path);
+const canonicalPaths = documents.map((document) => document.canonicalPath);
+if (new Set(sourcePaths).size !== sourcePaths.length) bundleErrors.push("documents contain duplicate source paths");
+if (new Set(canonicalPaths).size !== canonicalPaths.length) bundleErrors.push("documents contain duplicate canonical paths");
+if (documents.length !== published.length) bundleErrors.push("documents must match published chapters one-to-one");
+
+for (const { volume, chapter } of published) {
+  const document = documents.find((candidate) => candidate.source?.path === chapter.entry);
+  if (!document) {
+    bundleErrors.push(`missing document for ${chapter.entry}`);
+    continue;
+  }
+  const errors = validateArtifact(document, {
+    id: "worldbook",
+    canonicalPath: chapter.webPath,
+    sourcePath: chapter.entry,
+    namespace: `worldbook-${volume.id}-${chapter.id}`,
+    committedAt: lock.sources.worldbook.committedAt,
+  });
+  bundleErrors.push(...errors.map((error) => `${chapter.entry}: ${error}`));
+}
+for (const document of documents) {
+  if (!published.some(({ chapter }) => chapter.entry === document.source?.path)) {
+    bundleErrors.push(`undeclared document ${document.source?.path ?? "<missing source path>"}`);
+  }
+}
+if (bundleErrors.length) throw new Error(`${worldbookPath}:\n- ${bundleErrors.join("\n- ")}`);
+process.stdout.write(`worldbook: ${documents.length} generated chapter(s) match ${bundle.source.commit}\n`);

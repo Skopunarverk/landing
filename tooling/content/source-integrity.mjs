@@ -14,19 +14,7 @@ export async function readSourcesLock() {
   return JSON.parse(await readFile(path.join(workspaceRoot, "sources.lock.json"), "utf8"));
 }
 
-export async function resolvePinnedSource({ id, envVar, adjacentDirectory, marker }) {
-  const lock = await readSourcesLock();
-  const source = lock.sources[id];
-  if (!source) throw new Error(`sources.lock.json does not define ${id}`);
-
-  const candidates = [
-    process.env[envVar],
-    path.join(workspaceRoot, ".sources", id),
-    path.resolve(workspaceRoot, "..", adjacentDirectory),
-  ].filter(Boolean);
-  const root = candidates.find((candidate) => existsSync(path.join(candidate, marker)));
-  if (!root) throw new Error(`${id}: no source checkout contains ${marker}; checked ${candidates.join(", ")}`);
-
+export function assertPinnedCheckout(root, source, id) {
   let remote;
   let head;
   let dirty;
@@ -40,6 +28,22 @@ export async function resolvePinnedSource({ id, envVar, adjacentDirectory, marke
   if (remote !== source.repository) throw new Error(`${id}: origin ${remote} does not match ${source.repository}`);
   if (head !== source.commit) throw new Error(`${id}: HEAD ${head} does not match pinned commit ${source.commit}`);
   if (dirty) throw new Error(`${id}: pinned source checkout is dirty; refusing to publish ambiguous artifacts`);
+}
+
+export async function resolvePinnedSource({ id, envVar, adjacentDirectory, marker }) {
+  const lock = await readSourcesLock();
+  const source = lock.sources[id];
+  if (!source) throw new Error(`sources.lock.json does not define ${id}`);
+
+  const candidates = [
+    process.env[envVar],
+    path.join(workspaceRoot, ".sources", id),
+    path.resolve(workspaceRoot, "..", adjacentDirectory),
+  ].filter(Boolean);
+  const root = candidates.find((candidate) => existsSync(path.join(candidate, marker)));
+  if (!root) throw new Error(`${id}: no source checkout contains ${marker}; checked ${candidates.join(", ")}`);
+
+  assertPinnedCheckout(root, source, id);
 
   return { root, source };
 }

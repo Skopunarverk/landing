@@ -61,11 +61,25 @@ pnpm worldbook-publication:verify:pinned
 四卷目录、下载列表和许可证展示只消费该索引。生成文件不得人工编辑；内容变化应先
 进入 TheWorldBook，再通过 `pnpm publish:prepare` 重建网页、PDF 和 publication manifest。
 
-网页正文制品使用 `authoritative-content` v3。发布准备会在安全审计之前通过 parse5 从同一份
-Typst HTML 派生 h2–h4 目录、为缺少 label 的标题补确定性锚点，并为块级 MathML 增加独立
-滚动边界；已有 Typst label 始终保留。验证阶段会从正文重新推导并逐项比对目录，网站不得
-手写第二份章节数组。需要长期稳定的公开深链时，应在 TheWorldBook 的 Typst 源中补显式
-label，而不是依赖标题生成的 fallback 锚点。
+WorldBook 的外层网页制品是 `schemaVersion: 1` 的多章节内容束，`documents[]` 中每篇正文
+继续遵循 `authoritative-content` v3。发布准备会从结构化清单选取全部
+`published + entry + webPath` 章节，在安全审计之前通过 parse5 从各自 Typst HTML 派生
+h2–h4 目录、为缺少 label 的标题补确定性锚点，并为块级 MathML 增加独立滚动边界；已有
+Typst label 始终保留。Astro 通过一个 catch-all 静态路由按 `canonicalPath` 生成页面，新增
+公开章节不得再增加手写页面。
+
+验证阶段会证明出版清单、内容束、Astro 路径与 manifest HTML 制品一一对应，并核对它们
+与 `sources.lock.json` 的 repository、commit、提交时间和出版清单哈希。缺章、重复路径、
+额外 HTML、脏权威 checkout 或 provenance 漂移都会使发布失败。需要长期稳定的公开深链时，
+应在 TheWorldBook 的 Typst 源中补显式 label，而不是依赖标题生成的 fallback 锚点。
+
+### WorldBook 多章节初版（2026-07-14）
+
+当前来源锁固定到 TheWorldBook 提交
+`eafa2f8b23995cbf14fea638440482176002a287`。该版本公开魔法体系、天文及地理、世界运行的
+可观察法则、魔法在社会演变中的作用、宗教信仰、法律与社会共六章；四卷 PDF 与六个网页
+章节由同一固定提交生成。内容设计、事实分级和专家协作记录位于 TheWorldBook 的
+`docs/2026-07-14-worldbook-跨学科初版与多章节双目标出版设计.md`。
 
 公开 landing 仓的 CI 会始终验证已提交制品、Manifest、站点构建与测试。若要让 CI 从两个
 私有权威仓重新拉取并执行零漂移检查，需要配置只读 Actions secret

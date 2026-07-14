@@ -16,7 +16,7 @@
       "number": 1,
       "title": "世界基础",
       "englishTitle": "World Basics",
-      "summary": "介绍世界的基础设定，包括天文、地理、魔法体系与物种生态。",
+      "summary": "从魔法、天文地理与可观察法则建立世界基础；物种生态仍待后续扩写。",
       "status": "in-progress",
       "entry": "src/Volume1_WorldBasics/Volume1_WorldBasics.typ",
       "chapters": [
@@ -33,10 +33,10 @@
           "id": "astronomy-and-geography",
           "number": 2,
           "title": "天文及地理",
-          "summary": "规划描述宇宙、世界与地理空间。",
-          "status": "stub",
+          "summary": "从天体尺度到地貌、气候、生态、聚落建立可验证的地理因果骨架。",
+          "status": "published",
           "entry": "src/Volume1_WorldBasics/chapters/Chapter2_AstronomyAndGeography/chapter2.typ",
-          "webPath": null
+          "webPath": "/worldbook/volumes/1-world-basics/geography/"
         },
         {
           "id": "species",
@@ -46,6 +46,15 @@
           "status": "stub",
           "entry": "src/Volume1_WorldBasics/chapters/Chapter3_Species/chapter3.typ",
           "webPath": null
+        },
+        {
+          "id": "observable-laws",
+          "number": 4,
+          "title": "世界运行的可观察法则",
+          "summary": "用证据等级、预算、尺度、边界与失败记录建立自然研究的共同方法。",
+          "status": "published",
+          "entry": "src/Volume1_WorldBasics/chapters/Chapter4_ObservableLaws/chapter4.typ",
+          "webPath": "/worldbook/volumes/1-world-basics/observable-laws/"
         }
       ]
     },
@@ -54,8 +63,8 @@
       "number": 2,
       "title": "历史与社会演变",
       "englishTitle": "History and Social Evolution",
-      "summary": "规划介绍文明发展历程，包括历史年代记、国家与政治、组织与结社，以及魔法在社会演变中的作用。",
-      "status": "planned",
+      "summary": "以魔法、劳动、知识、组织与风险的长期互动解释社会演变；其余历史章节仍待扩写。",
+      "status": "in-progress",
       "entry": "src/Volume2_HistoryAndSocialEvolution/Volume2_HistoryAndSocialEvolution.typ",
       "chapters": [
         {
@@ -89,10 +98,10 @@
           "id": "magic-in-social-evolution",
           "number": 4,
           "title": "魔法在社会演变中的作用",
-          "summary": "计划描述魔法对社会演变的长期影响。",
-          "status": "planned",
-          "entry": null,
-          "webPath": null
+          "summary": "描述魔法能力如何经由训练、载体、维护、安全与组织机制改变社会，而非把技术差异写成命运。",
+          "status": "published",
+          "entry": "src/Volume2_HistoryAndSocialEvolution/chapters/Chapter4_MagicInSocialEvolution/chapter4.typ",
+          "webPath": "/worldbook/volumes/2-history-and-social-evolution/magic-and-society/"
         }
       ]
     },
@@ -101,18 +110,18 @@
       "number": 3,
       "title": "文化与文明",
       "englishTitle": "Culture and Civilization",
-      "summary": "规划介绍世界的文化与文明，包括宗教信仰、风俗与艺术、建筑与地标、物品与科技。",
-      "status": "planned",
+      "summary": "从地方、实践共同体、权力与记忆理解文化差异；风俗、建筑与技术章节仍待扩写。",
+      "status": "in-progress",
       "entry": "src/Volume3_CultureAndCivilization/Volume3_CultureAndCivilization.typ",
       "chapters": [
         {
           "id": "religions-and-beliefs",
           "number": 1,
-          "title": "宗教信仰",
-          "summary": "计划描述宗教与信仰体系。",
-          "status": "planned",
-          "entry": null,
-          "webPath": null
+          "title": "宗教信仰：法则、地方与仪式",
+          "summary": "讨论共同自然法则之上如何形成多重宇宙观、仪式资格、地方知识、物质传统与内部异议。",
+          "status": "published",
+          "entry": "src/Volume3_CultureAndCivilization/chapters/Chapter1_ReligionsAndBeliefs/chapter1.typ",
+          "webPath": "/worldbook/volumes/3-culture-and-civilization/religion-and-ritual/"
         },
         {
           "id": "customs-and-arts",
@@ -148,8 +157,8 @@
       "number": 4,
       "title": "社会生活与挑战",
       "englishTitle": "Social Life and Challenges",
-      "summary": "规划介绍世界的社会生活与挑战，包括经济与贸易、法律与社会、疾病与异变、著名人物。",
-      "status": "planned",
+      "summary": "从法律、责任与公共安全切入社会生活；经济、疾病与人物章节仍待扩写。",
+      "status": "in-progress",
       "entry": "src/Volume4_SocialLifeAndChallenge/Volume4_SocialLifeAndChallenge.typ",
       "chapters": [
         {
@@ -165,10 +174,10 @@
           "id": "law-and-society",
           "number": 2,
           "title": "法律与社会",
-          "summary": "计划描述法律制度与社会秩序。",
-          "status": "planned",
-          "entry": null,
-          "webPath": null
+          "summary": "以可证明性、责任链、风险分配、修复与申诉机制描述法律如何处理魔法社会中的日常争议。",
+          "status": "published",
+          "entry": "src/Volume4_SocialLifeAndChallenge/chapters/Chapter2_LawAndSociety/chapter2.typ",
+          "webPath": "/worldbook/volumes/4-social-life-and-challenges/law-and-society/"
         },
         {
           "id": "diseases-and-mutations",
@@ -193,9 +202,9 @@
   ],
   "source": {
     "repository": "https://github.com/Hemifuture/TheWorldBook.git",
-    "commit": "bfc5e73fb5b1dac1cefb4107c34ad709292c3ae8",
+    "commit": "eafa2f8b23995cbf14fea638440482176002a287",
     "path": "publication/worldbook.json",
-    "sha256": "7e4c9d9bc1b2f0dca252f7806ed6088d64d668a2740f2267e59699a35c359a21",
+    "sha256": "45becbb5b6ca5809ec4d7ea1140aba155d6fe536be9b3729c1ecb18052cd54fb",
     "mode": "structured"
   }
 }

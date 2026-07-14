@@ -69,11 +69,6 @@ sevara.artifacts = [sevaraHtml, ...Object.values(sevara.downloads)].map((entry) 
   sha256: entry.sha256,
 }));
 
-const worldbookHtml = await artifact(
-  "apps/worldbook/dist/worldbook/volumes/1-world-basics/magic/index.html",
-  "/worldbook/volumes/1-world-basics/magic/",
-  "html",
-);
 const worldbookSourceSnapshot = await artifact(
   "apps/worldbook/src/generated/authoritative-content.json",
   "src/generated/authoritative-content.json",
@@ -82,6 +77,14 @@ const worldbookSourceSnapshot = await artifact(
 const worldbookPublicationIndex = JSON.parse(
   await readFile(path.join(root, "apps/worldbook/src/generated/publication-index.json"), "utf8"),
 );
+const worldbookContentBundle = JSON.parse(
+  await readFile(path.join(root, "apps/worldbook/src/generated/authoritative-content.json"), "utf8"),
+);
+const worldbookHtml = await Promise.all(worldbookContentBundle.documents.map((document) => artifact(
+  `apps/worldbook/dist${document.canonicalPath}index.html`,
+  document.canonicalPath,
+  "html",
+)));
 const worldbookPublicationSnapshot = await artifact(
   "apps/worldbook/src/generated/publication-index.json",
   "src/generated/publication-index.json",
@@ -141,7 +144,7 @@ const worldbook = {
     artifact: await artifact(`apps/worldbook/public/downloads/${file}`, `/worldbook/downloads/${file}`, "pdf"),
   }))),
 };
-worldbook.artifacts = [worldbookHtml, ...worldbook.volumes.map((volume) => volume.artifact)].map((entry) => ({
+worldbook.artifacts = [...worldbookHtml, ...worldbook.volumes.map((volume) => volume.artifact)].map((entry) => ({
   target: entry.target,
   path: entry.url,
   bytes: entry.bytes,

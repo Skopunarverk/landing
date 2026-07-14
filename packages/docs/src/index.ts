@@ -34,6 +34,7 @@ export type {
   TypstDependencySummary,
   TypstDiagnosticPolicy,
   TypstDiagnosticSummary,
+  WorldbookAuthoritativeContentBundleV1,
 } from "./schema/authoritative-content";
 
 export {

@@ -32,6 +32,14 @@ The World Book 是 Sköpunarverk 项目群中的“世界真相 / Canon”产品
 - 英文全大写仅用于 kicker、卷号和系统状态，必须提高字距且保持短小；
 - 标题允许高对比、大字号，正文不使用渐变字或透明字。
 
+## 事实状态与长文组件
+
+- Canon 使用青绿色、Derived 使用蓝色、Proposal 使用赭色、Unknown 使用紫色；每个状态必须同时显示英文状态文字，不能只靠颜色区分。
+- `chapter-lede` 负责章首定位、主责专业、摘要和开放问题；`knowledge-note` 负责事实状态、正文、Canon 来源或 Derived 依赖。
+- 宽表格必须放在可键盘聚焦、带可访问名称的局部横向滚动区域内；移动端不得让表格撑宽整页。
+- 精确布局的 Typst 因果图作为 `worldbook-visual-island` 输出内联 SVG，并提供 `role` 与 `aria-label`；SVG 可以局部横向滚动，但不得产生整页横向溢出。
+- 原生段落、表格、公式和脚注保持 HTML 语义，不得为了像素一致全部栅格化。PDF 与 HTML 共用内容和状态协议，但不要求像素级相同。
+
 ## 交互与动效
 
 - 所有链接必须有 `hover`、`active` 和 `focus-visible` 状态；键盘焦点使用共享青色轮廓。
@@ -53,7 +61,8 @@ The World Book 是 Sköpunarverk 项目群中的“世界真相 / Canon”产品
 
 - 1440px 与 390px 首屏都能明确看到“Sköpunarverk → World Book”的层级；
 - 全局导航进入 World 时有明确 current 状态；
-- 首页、四卷目录、魔法章节、PDF、404 都使用同一壳层；
+- 首页、四卷目录、六个公开章节、PDF、404 都使用同一壳层；
 - 键盘可以依序访问跳转链接、品牌导航、产品导航和正文链接；
+- 390px 下宽表格和因果图只在自身区域滚动，文档视口宽度不得超过设备宽度；
 - 正文、次要正文、按钮文字与各自背景满足 WCAG AA；
 - 页面在 reduced-motion 下不依赖动画表达信息。
