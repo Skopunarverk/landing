@@ -88,4 +88,18 @@ pnpm deploy:landing
 根站由 Worker `skopunarverk` 承载；`/sevara*` 与 `/worldbook*` 分别由独立
 静态资产 Worker 承载。文档站部署命令会先重新构建，避免发布陈旧 `dist`。
 
+三个 Worker 均通过 Cloudflare Workers Builds 连接到 `Skopunarverk/landing`
+的 `main` 分支。生产构建配置如下：
+
+| Worker | 根目录 | 构建命令 | 部署命令 |
+| --- | --- | --- | --- |
+| `skopunarverk` | `/` | `npm run build` | `npx wrangler deploy` |
+| `skopunarverk-sevara` | `/apps/sevara` | `pnpm --dir ../.. build` | `pnpm exec wrangler deploy --config wrangler.jsonc` |
+| `skopunarverk-worldbook` | `/apps/worldbook` | `pnpm --dir ../.. build` | `pnpm exec wrangler deploy --config wrangler.jsonc` |
+
+三个连接都监听生产分支的全部路径，因此同一提交会在通过完整出版校验后分别部署
+三个站点，避免跨站版本漂移。两个静态文档 Worker 的非生产分支构建保持关闭；
+需要预览环境时应为每个 Worker 单独配置对应的 `wrangler.jsonc`，不能复用仓库根
+的 Landing 配置。
+
 定向操作某个 workspace 时使用 `pnpm --filter <package-name> <command>`。Landing 的路由、开发和部署说明见 [`apps/landing/README.md`](apps/landing/README.md)。
